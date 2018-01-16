@@ -172,6 +172,7 @@
 			<%@include file="../../main/modal/loginModal.jsp"%>	
 			<%@include file="../../main/modal/registerModal.jsp"%>
 		</c:if>
+		
 		<!--Home Sections-->
 
 		<section id="hello" class="home bg-mega">

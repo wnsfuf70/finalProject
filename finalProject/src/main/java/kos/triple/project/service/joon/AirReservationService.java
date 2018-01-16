@@ -53,6 +53,9 @@ public interface AirReservationService {
 
 	//항공편을 조회한다.
 	public void airPlaneSearch(HttpServletRequest req, Model model);
+
+	//예약하기위한 항공기,루트,가격 정보를 가져온다 (예약정보를가져온다)
+	public void getReserVationInfo(HttpServletRequest req, Model model);
 	
 	//항공편 검색
 	

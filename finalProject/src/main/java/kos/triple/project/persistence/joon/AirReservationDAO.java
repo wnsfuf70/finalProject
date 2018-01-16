@@ -36,7 +36,10 @@ public interface AirReservationDAO {
 
 	//하나의 공항 정보를 가져온다.
 	public AirPortVO getAirPortInfoOne_proc(String airPortName);
-
+	
+	//한공항의 위치정보를 가져온다.
+	public AirPortVO getAirPortLocation_proc(String airPortNo);
+	
 	//노선배정을한다.
 	public int setRoute_proc(Map<String, Object> map);
 
@@ -60,6 +63,10 @@ public interface AirReservationDAO {
 
 	//항공편을 검색한다.
 	public List<AirReservationSearchVO> airPlaneSearch(Map<String,Object> map);
+
+	//에약하기전 보여줄 모든정보를 가져온다.
+	public AirReservationSearchVO getReserVationInfo_proc(String airPlaneNo);
+
 	
 	//입력한 가격으로 설정한다.
 	

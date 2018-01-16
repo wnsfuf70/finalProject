@@ -12,6 +12,7 @@ public class RouteVO {
 	private Timestamp arrivalTime;
 	private int distance1;
 	private int distance2;
+	private int resultDistance;
 	
 	public RouteVO() {	}
 
@@ -85,6 +86,14 @@ public class RouteVO {
 
 	public void setDistance2(int distance2) {
 		this.distance2 = distance2;
+	}
+
+	public int getResultDistance() {
+		return resultDistance;
+	}
+
+	public void setResultDistance(int resultDistance) {
+		this.resultDistance = resultDistance;
 	}
 	
 	

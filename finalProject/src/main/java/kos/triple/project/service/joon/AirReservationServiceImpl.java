@@ -195,8 +195,26 @@ public class AirReservationServiceImpl implements AirReservationService{
 		double stepOneDistence = Double.parseDouble(req.getParameter("stepOne"));
 		double stepTwoDistence = Double.parseDouble(req.getParameter("stepTwo"));
 		
-		String sTime = req.getParameter("startTime");
+		String airPortNo = startAirPortNo;
+
+		AirPortVO fromAirPort = dao.getAirPortLocation_proc(airPortNo);
+
+		System.out.println(":いしぉいけ1:" + airPortNo);
+		airPortNo = endAirPortNo;
+		AirPortVO toAirPort =  dao.getAirPortLocation_proc(airPortNo);
+
+		System.out.println(":いしぉいけ2:" + airPortNo);
 		
+		double from_xPos = fromAirPort.getxPos();
+		double from_yPos = fromAirPort.getyPos();
+		double to_xPos = toAirPort.getxPos();
+		double to_yPos = toAirPort.getyPos();
+			
+		DistanceCal dis = new DistanceCal(from_xPos, from_yPos, to_xPos, to_yPos);
+		String resultDistance = Double.toString(dis.getDistance());
+		
+		String sTime = req.getParameter("startTime");
+		System.out.println(sTime);
 		String[] tmp = sTime.split("T");
 		String startTimeStamp = tmp[0]+" "+tmp[1];
 		
@@ -263,8 +281,10 @@ public class AirReservationServiceImpl implements AirReservationService{
 		map.put("arrivalTime",at);
 		map.put("stepOneDistence",stepOneDistence);
 		map.put("stepTwoDistence",stepTwoDistence);
+		map.put("resultDistance",resultDistance);
 		
 		int cnt = dao.setRoute_proc(map);
+		
 		
 	}
 
@@ -374,7 +394,13 @@ public class AirReservationServiceImpl implements AirReservationService{
 		renameMap.put("AIRPORT_4", "力林");
 		renameMap.put("AIRPORT_5", "没林");
 		
+		map.forEach((k,v)->{
+			System.out.println(k + " : " + v);
+		});
+		
+		
 		List<AirReservationSearchVO> vo = dao.airPlaneSearch(map);
+		
 		for (AirReservationSearchVO i : vo) {
 			RouteVO r = i.getR();
 			r.setRoute1( (String)renameMap.get(r.getRoute1() ) );
@@ -384,6 +410,29 @@ public class AirReservationServiceImpl implements AirReservationService{
 		}
 			
 		model.addAttribute("searchResultVO",vo);
+	}
+
+	@Override
+	public void getReserVationInfo(HttpServletRequest req, Model model) {
+		
+		String airPlaneNo = req.getParameter("airPlaneNo");
+		System.out.println("pNum : " + airPlaneNo);
+		AirReservationSearchVO vo = dao.getReserVationInfo_proc(airPlaneNo);
+		
+		Map<String,String> renameMap = new HashMap<String,String>();
+		renameMap.put("AIRPORT_1", "辫器");
+		renameMap.put("AIRPORT_2", "措备");
+		renameMap.put("AIRPORT_3", "何魂");
+		renameMap.put("AIRPORT_4", "力林");
+		renameMap.put("AIRPORT_5", "没林");
+		
+		RouteVO r = vo.getR();
+		r.setRoute1( (String)renameMap.get(r.getRoute1() ) );
+		r.setRoute2( (String)renameMap.get(r.getRoute2() ) );
+		r.setRoute3( (String)renameMap.get(r.getRoute3() ) );
+		vo.setR(r);
+		
+		model.addAttribute("vo",vo);
 	}
 	
 	//亲傍祈 八祸

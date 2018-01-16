@@ -199,6 +199,24 @@ public class AirReservationDAOImpl implements AirReservationDAO{
 		return vo;
 	}
 
+	@Override
+	public AirPortVO getAirPortLocation_proc(String airPortNo) {
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		AirPortVO vo = dao.getAirPortLocation_proc(airPortNo);
+		
+		return vo;
+	}
+
+	@Override
+	public AirReservationSearchVO getReserVationInfo_proc(String airPlaneNo) {
+		
+		AirReservationSearchVO vo;
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		vo = dao.getReserVationInfo_proc(airPlaneNo);
+		return vo;
+	}
+
 	
 	
 	

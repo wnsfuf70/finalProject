@@ -41,11 +41,29 @@ public class AirReservationController {
 		model.addAttribute(req.getParameter("s_fromDate"));
 		model.addAttribute(req.getParameter("s_toDate"));*/
 		
+		System.out.println(req.getParameter("seatLevel"));
+		System.out.println(req.getParameter("startAirport_Key"));
+		System.out.println(req.getParameter("endAirport_Key"));
+		System.out.println(req.getParameter("s_fromDate"));
+		System.out.println(req.getParameter("s_toDate"));
 		service.airPlaneSearch(req,model);
 		
 		
 		return "reservation/air/searchResult";
 	}
+	
+	//티켓구매버튼누른후 이동된페이지
+	@RequestMapping(value="airTiketBuyPageStep1")
+	public String airTiketBuyPage(HttpServletRequest req ,Model model) {
+		
+		System.out.println("airTiketBuyPageStep1() ");
+		
+		service.getReserVationInfo(req,model);
+		
+		return "reservation/air/airTiketBuyPageStep1";
+		//return "reservation/air/airTiketBuyPageStep1";
+	}
+	
 	
 	/* 클라이언트 페이지 */
 	

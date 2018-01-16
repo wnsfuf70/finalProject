@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kos.triple.project.persistence.chul.EpilogueDAO;
 import kos.triple.project.vo.Epilogue_courseVO;
@@ -19,7 +20,7 @@ public class EpilogueServiceImpl implements EpilogueService{
 	
 	@Autowired
 	EpilogueDAO eDao;
-
+	
 	@Override
 	public void searchLocaPro(HttpServletRequest req, Model model) {
 		
@@ -69,13 +70,13 @@ public class EpilogueServiceImpl implements EpilogueService{
 	}
 
 	@Override
-	public void insertEpilCourse(HttpServletRequest req, Model model) {
+	public void insertEpilCourse(MultipartHttpServletRequest multi, Model model) {
 		
-		String epilogueNo = req.getParameter("epilogueNo");
-		String location_num = req.getParameter("location_num");
-		String content = req.getParameter("content");
-		String visit_order = req.getParameter("visit_order");
-		String temp_dday	= req.getParameter("dday");
+		String epilogueNo = multi.getParameter("epilogueNo");
+		String location_num = multi.getParameter("location_num");
+		String content = multi.getParameter("content");
+		String temp_dday	= multi.getParameter("dday");
+		String uploadFile = (String) multi.getAttribute("uploadFile");
 		
 		epilogueNo = epilogueNo.replace('"', '\0');
 		epilogueNo = epilogueNo.trim();
@@ -83,46 +84,41 @@ public class EpilogueServiceImpl implements EpilogueService{
 		location_num = location_num.replace('"', '\0');
 		location_num = location_num.trim();
 		
-		visit_order = visit_order.replace('"', '\0');
-		visit_order = visit_order.trim();
-		
 		temp_dday = temp_dday.replace('"', '\0');
 		temp_dday = temp_dday.trim();
 		
+		/*uploadfile = uploadfile.replace('"', '\0');
+		uploadfile = uploadfile.trim();*/
+		
 		java.sql.Date dday = java.sql.Date.valueOf(temp_dday);
 		
-		System.out.println("temp_dday" + temp_dday);
-		System.out.println("dday" + dday);
-		/*System.out.println("epilogueNo" + epilogueNo);*/
-		System.out.println("location_num" + location_num);
-		System.out.println("content" + content);
-		System.out.println("visit_order" + visit_order);
+		Map<String, Object> epil = new HashMap<String, Object>();
+		
+		epil.put("epilogueNo", epilogueNo);
+		
+		int visit_order = eDao.getNumOfEpilCourse(epil);
+		
+		++visit_order;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		
 		map.put("epilogueNo", epilogueNo);
 		map.put("location_num", location_num);
 		map.put("content", content);
-		map.put("visit_order", visit_order);
 		map.put("dday", dday);
+		map.put("visit_order", visit_order);
+		map.put("uploadFile", uploadFile);
 		
 		int isInsert = eDao.insertEpilCoursePro(map);
-		
+
 		model.addAttribute("isInsert", isInsert);
-		model.addAttribute("epilogue_courseNo", 1);
 		
-		// 이 부분은 반드시 req로 넘겨야함...
-		// 그래야만 아래 메소드에서 epilogue_courseNo를 받을 수 있다.
-		req.setAttribute("epilogue_courseNo", "1");
-		req.setAttribute("epilogueNo", epilogueNo);
-		/*
-		model.addAttribute("location_num", location_num);
-		model.addAttribute("content", content);
-		model.addAttribute("visit_order");*/
+		multi.setAttribute("epilogueNo", epilogueNo);
 	}
 
 	@Override
-	public void getEpilCourse(HttpServletRequest req, Model model) {
+	public void getEpilCourse(MultipartHttpServletRequest req, Model model) {
 		
 		// 현재 후기에 추가된 epilogue_course 목록을 가져올거임.
 		String epilogueNo = (String) req.getAttribute("epilogueNo");

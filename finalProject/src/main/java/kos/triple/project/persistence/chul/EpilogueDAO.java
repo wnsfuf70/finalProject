@@ -30,5 +30,8 @@ public interface EpilogueDAO {
 	// 현재 후기에 대한  epilogue_course의 목록을 가져오는 메소드
 	public List<Epilogue_courseVO> getListOfEpilCourse(Map<String, Object> map2);
 	
+	// 현재 이야기에 몇 개의 코스가 있는지 가져오는 메소드. 코스저장시 방문순서를 정해주기 위해서
+	public int getNumOfVisitOrder(Map<String, Object> map);
+	
 	// 작성한 여행기를 epilogue 에 insert 하는 작업.
 }

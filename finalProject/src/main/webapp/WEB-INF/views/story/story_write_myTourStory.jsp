@@ -8,7 +8,7 @@
 <title>동행</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/png" href="favicon.ico">
+<!-- <link rel="icon" type="image/png" href="favicon.ico"> -->
 
 <!--Google Fonts link-->
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="${css}carousel.css">
 <link rel="stylesheet" href="${css}/storyCss/myTourStory.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
 <!--For Plugins external css-->
@@ -135,7 +136,7 @@
 			class="navbar navbar-default navbar-fixed white no-background bootsnav text-uppercase">
 			<!-- Start Top Search -->
 			<div class="top-search">
-				<div class="container">
+				<div class="container" style="background-color: gray;">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-search"></i></span>
 						<input type="text" class="form-control" placeholder="Search">
@@ -147,13 +148,13 @@
 			<!-- End Top Search -->
 
 			<div class="container">
-				<!-- Start Atribute Navigation -->
+				<!-- Start Attribute Navigation -->
 				<div class="attr-nav">
 					<ul>
 						<li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
 					</ul>
 				</div>
-				<!-- End Atribute Navigation -->
+				<!-- End Attribute Navigation -->
 
 				<!-- Start Header Navigation -->
 				<div class="navbar-header">
@@ -161,9 +162,10 @@
 						data-target="#navbar-menu">
 						<i class="fa fa-bars"></i>
 					</button>
-					<a class="navbar-brand" href="main"> 
-						홈<img src="#" class="logo logo-display" alt=""> 
-						<img src="#"class="logo logo-scrolled" alt="">
+					<a class="navbar-brand" href="index"> 홈<img src="#"
+						class="logo logo-display" alt=""> <img src="#"
+						class="logo logo-scrolled" alt="">
+
 					</a>
 				</div>
 				<!-- End Header Navigation -->
@@ -172,35 +174,18 @@
 				<div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown"
 						data-out="fadeOutUp">
-						<li><a href="plan">계획하기</a></li>
-						<li><a href="story_write_myTourStory">이야기</a></li>
-						<li><a href="where_main">어디갈까</a></li>
-						<li><a href="recomandStart">추천여행기</a></li>
+						<li><a href="aboutus.html">이야기</a></li>
+						<li><a href="model.html">어디갈까</a></li>
+						<li><a href="blog.html">추천여행기</a></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">예약 </a>
 							<ul class="dropdown-menu">
-								<li><a href="stayReservation">숙박 예약</a></li>
-								<li><a href="airReservation">항공 예약</a></li>
-								<li><a href="rentReservation">렌트카 예약</a></li>
-							</ul>
-						</li>
-					<c:if test="${sessionScope.mem_id == null}">					
-						<li><a href="" data-toggle="modal" data-target="#login">로그인</a></li>
-						<li><a href="" data-toggle="modal" data-target="#register">회원가입</a></li>
-					</c:if>
-					<c:if test="${sessionScope.mem_id != null}">
-						<li class="dropdown">
-						<a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">${sessionScope.mem_id}님</a>
-							<ul class="dropdown-menu">
-								<li><a href="plan">계획하기</a></li>
-								<li><a href="xxxStart">여행후기</a></li>
-								<li><a href="myPageStart">마이페이지</a></li>
-							</ul>
-						</li>
-								
-						<li><a href="logout" >로그아웃</a></li>
-					</c:if>
+								<li><a href="#">숙박 예약</a></li>
+								<li><a href="#">항공 예약</a></li>
+								<li><a href="#">렌트카 예약</a></li>
+							</ul></li>
+						<li><a href="#">로그인</a></li>
+						<li><a href="#">회원가입</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -228,9 +213,8 @@
 					</div>
 				</div>
 			</div>
-
-			<form name="myTourStoryForm" role="form" action="writeEpiloguePro"
-				method="post">
+			<!-- enctype="multipart/form-data" -->
+			<form name="myTourStoryForm" id="myTourStoryForm" role="form"  action="" method="post">
 				<input type="hidden" name="epilogueNo" id="epilogueNo"
 					value="${epilogueNo}" /> <input type="hidden" name="p_frgn_yn"
 					id="p_frgn_yn" value="" />
@@ -267,92 +251,93 @@
 						</div>
 					</div>
 				</div>
-				<div class="row setup-content" id="step-2">
-					<div class="col-xs-6 col-md-offset-3">
+					<div class="row setup-content" id="step-2">
 						<div class="col-xs-6 col-md-offset-3">
-
-							<h3>여행기 작성중</h3>
-							<!-- 사이드바 -->
-							<div id="sidebar-wrapper">
-								<ul class="sidebar-nav">
-									<li class="sidebar-brand"><a href="#">추가한 코스</a></li>
-									<li id="addedCourse" class="sidebar-brand"></li>
-								</ul>
-							</div>
-							<!-- /사이드바 -->
-							<div class="form-group">
-								<label class="control-label">새 지점</label> <select
-									class="selectPart" style="width: 20%; margin-left: 5%;">
-									<option value="">선택하세요</option>
-								</select>
-							</div>
-							<div class="form-group">
-
-								<div class="searchContainer" style="display: inline-block;">
-									<label class="control-label">여행지 찾기<input
-										id="searchBar" name="searchBar" maxlength="130"
-										style="width: 100%;" type="text" class="form-control" readonly
-										data-target="#exampleModalCenter" style="cursor:none;"
-										data-toggle="modal" /></label>
-
-									<!-- <button type="button" class="searchIcon"
-											data-toggle="modal" data-target="#exampleModalCenter"><img src="/project/resources/images/user/magnifier.svg" style="width:30px;height:30px;"></button> -->
-									<a href="" data-target="#exampleModalCenter"
-										data-toggle="modal" class="searchIcon"><img
-										src="/project/resources/images/story/magnifier.svg"
-										style="width: 30px; height: 30px;"></a>
+							<div class="col-xs-6 col-md-offset-3">
+	
+								<h3>여행기 작성중</h3>
+								<!-- 사이드바 -->
+								<div id="sidebar-wrapper">
+									<ul class="sidebar-nav">
+										<li class="sidebar-brand"><a href="#">추가한 코스</a></li>
+										<li id="addedCourse" class="sidebar-brand"></li>
+									</ul>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label">내용입력</label>
-								<!-- <input
-										maxlength="200" type="text" required="required"
-										class="form-control" placeholder="Enter Company Address" /> -->
-								<textarea id="epilContent" name="epilContent" rows="4" cols="50"
-									class="form-control"></textarea>
-							</div>
-							<div class="form-group">
-								<div class="myMoment" style="border: 1px; margin: 5%;">
-									<label class="control-label">내가 남긴 순간들 </label><br>
-									<div class="uploadedFile"
-										style="width: 300px; height: 200px; margin: 10%; float: left; border: 1px solid gray">
-										<!-- 동적으로 되려나.. -->
-										<div id="fileInputForm"
-											style="position: relative; float: left; width: 80px; height: 42px; overflow: hidden; cursor: none; background-image: url('/project/resources/images/story/add.svg');">
-											<input type="file" id="atch_file" name="atch_file" value=""
-												style='margin-left: -10px; width: 80px; height: 42px; filter: alpha(opacity = 0); opacity: 0; -moz-opacity: 0; cursor: none;'
-												onChange="loadFile(event)">
-											<script>
-												var loadFile = function(event) {
-													var output = document
-															.getElementById('output');
-													output.src = URL
-															.createObjectURL(event.target.files[0]);
-												}
-											</script>
+								<!-- /사이드바 -->
+								<div class="form-group">
+									<label class="control-label">새 지점</label> <select
+										class="selectPart" style="width: 20%; margin-left: 5%;">
+										<option value="">선택하세요</option>
+									</select>
+								</div>
+								<div class="form-group">
+	
+									<div class="searchContainer" style="display: inline-block;">
+										<label class="control-label">여행지 찾기<input
+											id="searchBar" name="searchBar" maxlength="130"
+											style="width: 100%;" type="text" class="form-control" readonly
+											data-target="#exampleModalCenter" style="cursor:none;"
+											data-toggle="modal" /></label>
+	
+										<!-- <button type="button" class="searchIcon"
+												data-toggle="modal" data-target="#exampleModalCenter"><img src="/project/resources/images/user/magnifier.svg" style="width:30px;height:30px;"></button> -->
+										<a href="" data-target="#exampleModalCenter"
+											data-toggle="modal" class="searchIcon"><img
+											src="/project/resources/images/story/magnifier.svg"
+											style="width: 30px; height: 30px;"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label">내용입력</label>
+									<!-- <input
+											maxlength="200" type="text" required="required"
+											class="form-control" placeholder="Enter Company Address" /> -->
+									<textarea id="epilContent" name="epilContent" rows="4" cols="50"
+										class="form-control"></textarea>
+								</div>
+								<div class="form-group">
+									<div class="myMoment" style="border: 1px; margin: 5%;">
+										<label class="control-label">내가 남긴 순간들 </label><br>
+										<div class="uploadedFile"
+											style="width: 300px; height: 200px; margin: 10%; float: left; border: 1px solid gray">
+											<!-- 동적으로 되려나.. -->
+											<div id="fileInputForm"
+												style="position: relative; float: left; width: 80px; height: 42px; overflow: hidden; cursor: none; background-image: url('/project/resources/images/story/add.svg');">
+												<input type="file" id="atch_file" name="atch_file" value=""
+													style='margin-left: -10px; width: 80px; height: 42px; filter: alpha(opacity = 0); opacity: 0; -moz-opacity: 0; cursor: none;'
+													onChange="loadFile(event)">
+												<script>
+													var loadFile = function(event) {
+														var output = document
+																.getElementById('output');
+														output.src = URL
+																.createObjectURL(event.target.files[0]);
+													}
+												</script>
+											</div>
+											<img id="output" style="width: 250px; height: 100px;" />
 										</div>
-										<img id="output" style="width: 250px; height: 100px;" />
 									</div>
 								</div>
+								<!-- <div class="form-group" style="margin: 10%;">
+										<label class="control-label">다녀온 날짜</label><br>
+										<div id="chooseDday">
+											<input type="text" id="date"
+												class="form-control floating-label" placeholder="Date">
+										</div>
+									</div> -->
+								<div class="form-group" style="position: relative; margin: 10%;">
+									<label class="control-label">다녀온 날짜</label><br> <input
+										type="date" id="dday" name="dday">
+								</div>
+								<button type="button" id="saveCourseBtn"
+									class="btn btn-success btn-info">코스 저장하기</button>
+								<button class="btn btn-primaryy nextBtn btn-lg pull-right"
+									type="button" style="margin-top: 10%;">Next</button>
 							</div>
-							<!-- <div class="form-group" style="margin: 10%;">
-									<label class="control-label">다녀온 날짜</label><br>
-									<div id="chooseDday">
-										<input type="text" id="date"
-											class="form-control floating-label" placeholder="Date">
-									</div>
-								</div> -->
-							<div class="form-group" style="position: relative; margin: 10%;">
-								<label class="control-label">다녀온 날짜</label><br> <input
-									type="date" id="dday" name="dday">
-							</div>
-							<button type="button" id="saveCourseBtn"
-								class="btn btn-success btn-info">코스 저장하기</button>
-							<button class="btn btn-primaryy nextBtn btn-lg pull-right"
-								type="button" style="margin-top: 10%;">Next</button>
 						</div>
 					</div>
-				</div>
+				</form>
 				<div class="row setup-content" id="step-3">
 					<div class="col-xs-6 col-md-offset-3">
 						<div class="col-md-12">
@@ -389,6 +374,38 @@
 			</div>
 		</section>
 
+		
+
+		<!-- scroll up-->
+		<div class="scrollup">
+			<a href="#"><i class="fa fa-chevron-up"></i></a>
+		</div>
+		<!-- End off scroll up -->
+
+
+		<footer id="footer" class="footer bg-mega">
+			<div class="container">
+				<div class="row">
+					<div class="main_footer p-top-40 p-bottom-30">
+						<div class="col-md-6 text-left sm-text-center">
+							<p class="wow fadeInRight" data-wow-duration="1s">
+								Made with <i class="fa fa-heart"></i> by <a target="_blank"
+									href="http://bootstrapthemes.co">Bootstrap Themes</a> 2016. All
+								Rights Reserved
+							</p>
+						</div>
+						<div class="col-md-6 text-right sm-text-center sm-m-top-20">
+							<ul class="list-inline">
+								<li><a href="">Facebook</a></li>
+								<li><a href="">Twitter</a></li>
+								<li><a href="">Instagram</a></li>
+								<li><a href="">Pinterest</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
 		<!-- Modal -->
 		<!-- 여행지 찾기 검색 모달창입니다. -->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
@@ -422,38 +439,7 @@
 				</div>
 			</div>
 		</div>
-
-
-		<!-- scroll up-->
-		<div class="scrollup">
-			<a href="#"><i class="fa fa-chevron-up"></i></a>
-		</div>
-		<!-- End off scroll up -->
-
-
-		<footer id="footer" class="footer bg-mega">
-			<div class="container">
-				<div class="row">
-					<div class="main_footer p-top-40 p-bottom-30">
-						<div class="col-md-6 text-left sm-text-center">
-							<p class="wow fadeInRight" data-wow-duration="1s">
-								Made with <i class="fa fa-heart"></i> by <a target="_blank"
-									href="http://bootstrapthemes.co">Bootstrap Themes</a> 2016. All
-								Rights Reserved
-							</p>
-						</div>
-						<div class="col-md-6 text-right sm-text-center sm-m-top-20">
-							<ul class="list-inline">
-								<li><a href="">Facebook</a></li>
-								<li><a href="">Twitter</a></li>
-								<li><a href="">Instagram</a></li>
-								<li><a href="">Pinterest</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
+		
 	</div>
 
 	<!-- JS includes -->
@@ -475,158 +461,9 @@
 
 	<script src="${js}plugins.js"></script>
 	<script src="${js}main.js"></script>
-	<script src="${js}vendor/myTourStoryJs.js?ver=1.3"></script>
-	<script src="${js}vendor/myTourStoryJavsScr.js?ver=1.3"></script>
-	<script src="${js}vendor/myScript.js?ver=1.3"></script>
-	
-	<!-- 모달 추가 시작 login -->
-	<div class="row">
-		<div class="modal" id="login" tabindex="-1"  >
-			<!-- #model로 지정했으므로 id="model" -->
-			<div class="modal-dialog" style="z-index:9999">
-				<div class="modal-content">
-					<div class="modal-header">
-						로그인
-						<button class="close" data-dismiss="modal">&times;</button>
-					</div>
-					
-					<div class="modal-body" style="text-align: center;">
-					<center><img src="${images}/Login.png"></center>
-						<form id="login-form" action="login" method="post" role="form" style="display: block;">
-							
-							<div class="form-group">
-								<input type="text" name="mem_id" id="userId" tabindex="1" class="form-control" placeholder="아이디" value="">
-							</div>
-							
-							<div class="form-group">
-								<input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호" value="">
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-success" value="로그인">
-									</div>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="text-center">
-											<a href="findIdAndPwd" tabindex="5" class="forgot-password"> 아이디 | 비밀번호 찾기</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>	
-<!-- 모달 추가 종료 login-->		
-		
-		
-<!-- 모달 추가 시작 register -->
-	<div class="row">
-		<div class="modal" id="register" tabindex="-1">
-			<!-- #model로 지정했으므로 id="model" -->
-			<div class="modal-dialog" style="z-index:9999">
-				<div class="modal-content" style="height:950px">
-					<div class="modal-header">
-						회원가입
-						<button class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body" style="text-align: center;">
-		
-			<!-- 회원가입 -->
-			<div class="col-md-12">
-				<form role="form" action="register" method="post" role="form" style="display: block;">
-					<div class="form-group">
-						<label for="username">사용자 이름</label> 
-						<input type="text" class="form-control" id="username" placeholder="이름을 입력해 주세요" name="name">
-					</div>
+	<script src="${js}vendor/myTourStoryJs.js?ver=1.4"></script>
+	<script src="${js}vendor/myTourStoryJavsScr.js?ver=1.4"></script>
+	<script src="${js}vendor/myScript.js?ver=1.4"></script>
 
-					<div class="form-group">
-						<label for="InputId">아이디</label> 
-						<input type="text" class="form-control" id="InputId" placeholder="아이디(영문+숫자/6~15이내)" required="required" name="mem_id" onchange="checkId()">
-					</div>
-
-					<div class="form-group">
-						<label for="InputPassword1">비밀번호</label> 
-						<input type="password" class="form-control" id="InputPassword1" placeholder="비밀번호(영문+숫자/6~15이내)" required="required" name="password">
-					</div>
-
-					<div class="form-group">
-						<label for="InputPassword2">비밀번호 확인</label> 
-						<input type="password" class="form-control" id="InputPassword2" placeholder="비밀번호 확인" required="required"  name="password" onchange="checkPwd()">
-					</div>
-
-					<div class="form-group">
-						<label for="InputEmail">이메일 주소</label> 
-						<input type="email" class="form-control" id="InputEmail" placeholder="E-Mail(비밀번호 분실 시 필요합니다)" required="required" name="email">
-					</div>
-
-					<div class="form-group">
-						<label for="InputBirthday">생년월일</label> 
-						<input type="date" class="form-control" id="InputBirthday" placeholder="생년월일을 선택해 주세요" required="required" name="birth">
-					</div>
-
-					<div class="form-group">
-						<label for="InputGender">성별</label>&nbsp;&nbsp;&nbsp; 
-						<label> <input name="sex" type="radio" value="Male" checked> 남자  </label>
-						&nbsp;&nbsp;&nbsp; 
-						<label><input name="sex" type="radio" value="Female"> 여자</label>
-					</div>
-
-					<div class="form-group">
-						<label for="username">휴대폰 인증</label>
-						<div class="input-group">
-							<input type="tel" class="form-control" id="InputHp" placeholder="- 없이 입력해 주세요" name="phone"> <!-- username -->
-							<span class="input-group-btn">
-								<button class="btn btn-success">
-									인증번호 전송<i class="fa fa-mail-forward spaceLeft"></i>
-								</button>
-							</span>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="username">인증번호 입력</label>
-						<div class="input-group">
-							<input type="text" class="form-control" id="InputReHp" placeholder="인증번호"> <span class="input-group-btn"> <!-- id="username" -->
-								<button class="btn btn-success">
-									인증번호 입력<i class="fa fa-edit spaceLeft"></i>
-								</button>
-							</span>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label>약관 동의</label>
-						<div data-toggle="buttons">
-							<label class="btn btn-primary active"> 
-							<span class="fa fa-check"></span> 
-							<input id="agree" type="checkbox" autocomplete="off" checked>
-							</label> <a href="#">이용약관</a>에 동의합니다.
-						</div>
-					</div>
-
-					<div class="form-group text-center">
-						<button type="submit" id="signupbtn" class="btn btn-info" >회원가입<i class="fa fa-check spaceLeft"></i></button>
-						<button type="reset" class="btn btn-warning">가입취소<i class="fa fa-times spaceLeft"></i></button>
-					</div>
-
-				</form>
-			</div>
-			<!-- 회원가입 종료 -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>		
-	<!-- 모달 추가 종료 register -->	
-	
 </body>
 </html>

@@ -64,6 +64,14 @@ public class EpilogueDAOImpl implements EpilogueDAO{
 		
 		return eDao.getListOfEpilCourse(map2);
 	}
+
+	@Override
+	public int getNumOfVisitOrder(Map<String, Object> map) {
+		
+		EpilogueDAO eDao = sqlSession.getMapper(EpilogueDAO.class);
+		
+		return eDao.getNumOfVisitOrder(map);
+	}
 	
 	
 }

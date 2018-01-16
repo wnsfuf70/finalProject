@@ -56,8 +56,8 @@
 	</insert>
 	
 	<insert id="insertEpilCoursePro" parameterType="java.util.Map">
-		INSERT INTO epilogue_course (epilogue_courseno, location_num, content, visit_order, epilogueNo, dday)
-		VALUES (epilogue_course_seq.nextval, #{location_num}, #{content}, #{visit_order}, #{epilogueNo}, #{dday})
+		INSERT INTO epilogue_course (epilogue_courseno, location_num, content, visit_order, epilogueNo, dday, img1)
+		VALUES (epilogue_course_seq.nextval, #{location_num}, #{content}, #{visit_order}, #{epilogueNo}, #{dday}, #{uploadFile})
 	</insert>
 	
 	<select id="getNumOfEpilCourse" resultType="int">

@@ -2,26 +2,18 @@
  * 
  */
 
-function fileUpload(){
+$(document).ready(function(){
 	
-	var formData = new FormData($('#fileUploadTest')[0]);
-	
-	formData.append("atch_file", $("#atch_file")[0].files[0]);
-	
-	$.ajax({
-		type:'POST',
-		url:'writeEpilCourse',
-		data : formData,
-		processData : false,
-		contentType : false,
-		success : function(html){
-			alert("file uploaded!");
-		},
+	$('#openWrite').click(function(){
 		
-		error : function(error){
-			alert("file upload is failed!");
-			console.log(error);
-			console.log(error.status);
-		}
-	})
-}
+		$('#write_mask').css("display", "block");
+		$('#write_pop').css("display", "block");
+		
+	});
+	
+	$('#closeWrite').click(function(){
+		$('#write_mask').css("display", "none");
+		$('#write_pop').css("display", "none");
+	});
+	
+});

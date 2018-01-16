@@ -1,11 +1,16 @@
 package kos.triple.project.controller.chul;
 
+import java.io.File;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kos.triple.project.service.chul.EpilogueService;
 
@@ -17,6 +22,12 @@ public class EpilogueController {
 	
 	// 작성하기 클릭 후 첫 페이지.
 	// 이상하게 initialInsert가 두번 호출되어버림...
+	@RequestMapping(value="EpilogueList")
+	public String EpilogueList() {
+		
+		return "story/EpilogueList";
+	}
+	
 	@RequestMapping(value="story_write_myTourStory")
 	public String story_write_myTourStory(HttpServletRequest req, Model model) {
 		
@@ -49,11 +60,14 @@ public class EpilogueController {
 	// 이야기작성 -> 코스저장하기 버튼 클릭시에 아래 메소드 실행.
 	// ajax에 의해 호출된다.
 	@RequestMapping(value="writeEpilCourse")
-	public String writeEpilCourse(HttpServletRequest req, Model model) {
+	public String writeEpilCourse(MultipartHttpServletRequest multi, Model model) {
 		
-		//MultipartHttpServletRequest multi
-		/*String root = multi.getSession().getServletContext().getRealPath("/");
-		String path = root + "resources/upload";
+		
+		String root = multi.getSession().getServletContext().getRealPath("/");
+		System.out.println(root + "rootPath");
+		/*String path = root + "resources/upload";*/
+		
+		String path="D:\\TeamProject\\finalProject\\finalProject\\src\\main\\webapp\\resources\\images\\story\\story";
 		
 		String newFileName="";
 		
@@ -75,16 +89,33 @@ public class EpilogueController {
 			
 			try {
 				mFile.transferTo(new File(path+newFileName));
+				multi.setAttribute("uploadFile", newFileName);
+				
+				eService.insertEpilCourse(multi, model);
+				eService.getEpilCourse(multi, model);
+				/*if (Integer.parseInt((String)multi.getAttribute("isInsert")) != 0) {
+					model.addAttribute("isInsert", 1);
+				}else {
+					model.addAttribute("isInsert", 0);
+				}*/
+					
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-		*/
-		eService.insertEpilCourse(req, model);
-		// 현재  epilogueNo에 대해서만 가져오면 되지 않을까?????
-		eService.getEpilCourse(req, model);
-		
+		/*return "getEpilCourse";*/
 		return "story/writeEpilCourse";
 	}
+	
+/*	@RequestMapping(value="getEpilCourse")
+	public String getEpilCourse(MultipartHttpServletRequest req, Model model) {
 		
+		if (Integer.parseInt((String)req.getAttribute("isInsert"))!=0) {
+			
+		}else {
+			model.addAttribute("isInsert", 0);
+		}
+		
+	}
+*/		
 }

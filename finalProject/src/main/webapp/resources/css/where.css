@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+.where_search {
+	display: block;
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.where_search .where_search-group {
+	
+}
+
+#search {
+	border: solid #4cae4c;
+	width: 75%;
+	vertical_align: middle;
+}
+
+#map {
+	display: block;
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#map_inter {
+	display: inline-block;
+	width: 340px;
+	height: 340px;
+	background: url(/project/resources/images/where/w_bg_map_bg.png)
+		no-repeat;
+}
+
+#map_inter .map_inter_selected {
+	width: 340px;
+	height: 340px;
+	z-index: 2;
+	display: block;
+}
+
+#inter_states {
+	vertical-align: top;
+	display: inline-block;
+	overflow: hidden;
+	width: 410px;
+	height: 340px;
+}
+
+#inter_states .lst_sido {
+	margin-left: 55px;
+	margin-top: 43px;
+}
+
+#inter_states .lst_sido ul {
+	display: block;
+	margin-top: 15px;
+	cursor: pointer;
+}
+
+#inter_states .lst_sido li {
+	display: inline-block;
+	padding: 3px 10px;
+	margin-right: 52px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #373D30;
+}
+
+li {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
+.where_hot-spot {
+}
+
+.spot-btn {
+	background: #4cae4c;
+	color: #fff;
+	border: none;
+	position: relative;
+	height: 60px;
+	font-size: 1.6em;
+	padding: 0 2em;
+	cursor: pointer;
+	transition: 800ms ease all;
+	outline: none;
+}
+
+.spot-btn:hover {
+	background: #fff;
+	color: #4cae4c;
+}
+
+.spot-btn:before, .spot-btn:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 2px;
+	width: 0;
+	background: #4cae4c;
+	transition: 400ms ease all;
+}
+
+.spot-btn:after {
+	right: inherit;
+	top: inherit;
+	left: 0;
+	bottom: 0;
+}
+
+.spot-btn:hover:before, .spot-btn:hover:after {
+	width: 100%;
+	transition: 800ms ease all;
+}
+
+#inter_states .lst_sido a {
+	color: #373D30;
+}
+
+#inter_states .lst_sido li a:hover {
+	color: #4cae4c;
+}
+
+#inter_states .lst_sido .selected {
+	background-color: #4cae4c;
+}
+
+#inter_states .lst_sido .selected a {
+	color: #ffffff;
+}
+
+.hot_spot_selected {
+	display: block;
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+
+iframe {
+	width: 800px;
+	height: 2300px;
+	border: 0;
+}

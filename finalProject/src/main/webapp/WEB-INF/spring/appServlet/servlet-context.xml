@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="kos.triple.project" />
+	
+	<!-- MyBatis 설정 시작 -->
+	<!-- 컨넥션 풀 : 서버 context.xml --> 
+	<beans:bean name="dataSourceSpied" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<beans:property name="jndiName" value="java:comp/env/jdbc/Oracle11g" />
+		<beans:property name="resourceRef" value="true" />
+	</beans:bean>	
+	
+	<!-- 2. 추가 시작-->	
+	<beans:bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <beans:constructor-arg ref="dataSourceSpied" />
+        <beans:property name="logFormatter">
+            <beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <beans:property name="loggingType" value="MULTI_LINE" />
+                <beans:property name="sqlPrefix" value="SQL         :  "/>
+            </beans:bean>
+        </beans:property>
+   	</beans:bean>	
+   	<!-- 추가 종료 -->
+
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource"  ref="dataSource" />  <!-- 컨넥션풀 호출  -->
+		<beans:property name="mapperLocations" value="classpath:finalproject_mapper/mapper/*.xml" />	 <!-- 경로에 마이바티스.xml 구현 -->	
+	</beans:bean>	
+		
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory"/>
+	</beans:bean>	 
+	
+	<!-- MyBatis 설정 종료 -->
+	
+    <!-- MultipartResolver 설정 -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="100000000" />
+        <beans:property name="maxInMemorySize" value="100000000" />
+    </beans:bean>	
+	
+
+	
+</beans:beans>

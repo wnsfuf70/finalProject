@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kos.triple.project.persistence.hee.MemberDAO">
+	<!-- 회원 가입 -->
+	<insert id="inputMemberPro" parameterType="kos.triple.project.vo.MemberVO">
+		INSERT INTO member(mem_id,name,password,email1,email2,sex,phone1,phone2,phone3,birth,grade)
+		VALUES(
+			   #{mem_id},#{name},#{password},
+			   #{email1},#{email2},#{sex},
+			   #{phone1},#{phone2},#{phone3},
+			   #{birth},#{grade}
+			   )
+	</insert>
+	
+	
+	<!-- 아이디 중복 확인 체크 -->
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*) FROM member WHERE mem_id=#{mem_id}
+	</select>
+	
+	<!-- 로그인 처리 --> 
+	<select id="loginPro" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM member WHERE mem_id=#{mem_id} AND password=#{password}
+	</select>
+	
+	<!-- 아이디, 비밀 번호 찾기 -->
+	<select id="getIdAndPwd" parameterType="java.util.Map" resultType="kos.triple.project.vo.MemberVO">
+		SELECT mem_id, password FROM member
+		WHERE email1=#{email1}
+		AND   email2=#{email2}
+		AND   name=#{name}
+	</select>
+
+	<!-- 회원 상세 정보 가져오기 (회원 정보 수정 시) -->
+	<select id="getMemberInfo" resultType="kos.triple.project.vo.MemberVO"> 
+		SELECT * FROM member WHERE mem_id=#{mem_id}
+	</select>	
+	
+	<!-- 회원 정보 수정 페이지 -->
+	<update id="updateMember" parameterType="kos.triple.project.vo.MemberVO">
+		UPDATE member SET password=#{password}, name=#{name}, 
+						  email1=#{email1}, email2=#{email2}, 
+						  phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, 
+						  faceImg=#{faceImg}, introduce=#{introduce}
+		WHERE mem_id=#{mem_id}					  
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	 <delete id="deleteMember" parameterType="String">
+	 	DELETE FROM member WHERE mem_id=#{mem_id}
+	 </delete>
+</mapper>

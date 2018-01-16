@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kos.triple.project.persistence.hong.CarDAO">
+	<!-- resultMap : 마이바티스는 자바빈으로 만들기 위해 프로퍼티 매핑을 위한 column 속성의 값을 사용한다.
+		 id : 한개의 namespace내에서 유일해야 하고, 객체를 비교할 때 구분자 역할(대부분 테이블의 기본키)
+		 type속성은 패키지 경로를 포함한 클래스명이나 리턴타입의 별칭 
+		 result : 쿼리 결과의 각각의 컬럼값을 자바빈의 프로퍼티의 매핑하기 위해 하위 엘리먼트에 사용-->
+		 
+ 	<resultMap id="rentCar_Map" type="kos.triple.project.vo.CarInfoVO">
+			 <result property="use_km" column="use_km"/>
+			 <result property="car_count" column="car_count"/>
+			 <result property="insurance" column="insurance"/>
+			 <result property="car_num" column="car_num"/>
+			 <result property="car_img" column="car_img"/>
+			 <result property="car_name" column="car_name"/>
+		 	 <result property="car_kind" column="car_kind"/>
+		 	 <result property="fuel" column="fuel"/>
+			 <result property="brand_name" column="brand_name"/>
+			 <result property="car_price" column="car_price"/>
+			 <result property="car_addprice" column="car_addprice"/>	
+		<!-- <collection property="car" ofType="kos.triple.project.vo.CarVO">
+			<id property="car_num" column="car_num"/>
+			<result property="car_name" column="car_name"/>
+			<result property="car_kind" column="car_kind"/>
+			<result property="fuel" column="fuel"/>
+			<result property="brand_name" column="brand_name"/>
+			<result property="car_price" column="car_price"/>
+			<result property="car_addprice" column="car_addprice"/>		
+		</collection> -->
+	</resultMap>      
+	
+	<!-- 렌트카 조회 -->
+	<select id="rentCar" resultMap="rentCar_Map">
+		SELECT *
+		FROM(
+		SELECT ROWNUM seq,use_km,car_count,insurance,car_num,car_img,
+		    car_name, car_kind, fuel, brand_name, car_price,car_addprice
+		FROM(
+		SELECT rentcar.use_km,rentcar.car_count,rentcar.insurance,rentcar.car_num,rentcar.car_img,
+				car.car_name, car.car_kind, car.fuel, car.brand_name, car.car_price,car.car_addprice
+				FROM 
+		        car JOIN rentcar 
+		        ON rentcar.car_num=car.car_num
+		        WHERE car.car_kind=#{car_kind} 
+		        ORDER BY car.car_price
+		        ))
+		WHERE seq BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 렌트카 전체 조회 -->
+	<select id="rentCarAll" parameterType="java.util.Map" resultType="kos.triple.project.vo.CarInfoVO">
+		SELECT * FROM(
+		SELECT ROWNUM seq,use_km,car_count,insurance,car_num,car_img,
+   			 car_name, car_kind, fuel, brand_name, car_price,car_addprice
+		FROM(
+   			 SELECT rentcar.use_km,rentcar.car_count,rentcar.insurance,rentcar.car_num,rentcar.car_img,
+   			 car.car_name, car.car_kind, car.fuel, car.brand_name, car.car_price,car.car_addprice
+   		 FROM 
+   		 car JOIN rentcar 
+   		 ON rentcar.car_num=car.car_num 
+   		 ORDER BY car.car_price
+			))
+		WHERE seq BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 렌트카 갯수 구하기 -->
+	<select id="getArticleCnt" resultType="int">
+		SELECT COUNT(*) FROM rentcar
+	</select>
+	
+	<!-- 렌트카추가 -->
+	<insert id="rentAdd" parameterType="kos.triple.project.vo.RentCarVO">
+		INSERT INTO rentcar(rent_no,use_km,car_count,insurance,car_num,car_img) 
+		VALUES
+		(#{rent_no},#{use_km},#{car_count},#{insurance},#{car_num},#{car_img})
+	</insert>	
+	
+	<!-- 렌트카삭제 -->
+	<delete id="rentDelete" parameterType="String">
+		DELETE FROM rentcar WHERE car_num = #{car_num}
+	</delete>
+	
+	<!-- 렌트카 상세 정보 -->
+	<select id="getViewDetail" resultType="kos.triple.project.vo.CarInfoVO" parameterType="String">
+		SELECT * FROM car 
+		NATURAL JOIN rentcar
+		WHERE car_num=#{car_num}
+	</select>
+</mapper>

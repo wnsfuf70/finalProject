@@ -1,0 +1,52 @@
+@charset "EUC-KR";
+
+
+
+table {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	font-size: 11px;
+	margin: 20px auto 0;
+	width:400px;
+	height:100px; 	
+}
+
+th {
+	background-color: #FFFFFF;
+	color: #737373;
+	font-size: 16px;
+	border-radius: 4px;
+	margin: 0px;
+	padding: 3px;
+	height: 10px;
+	width: 100px;
+}
+
+tr {
+	background-color: white;
+	color: #000000;
+	font-size: 12px;
+	border-radius: 4px;
+	margin: 0px;
+	padding: 3px;
+	height: 30px;
+	width: 250px;
+}
+
+
+.input {
+	width: 400px;
+	height: 40px;
+	background-color: #FFFFFF;
+}
+
+.inputButton {
+	background-color: #3498DB;
+	border: none;
+	color: white;
+	width: 150px;
+	height: 40px;
+	font-size: 15px;
+	margin: 3px;
+}

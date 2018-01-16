@@ -1,0 +1,16 @@
+<c:if test="${blockStartNumber!=1}">
+	<input type="button" value="[◀◀]" onclick="window.location='진입컨트롤러?requestPage=${startPage}'">
+	<input type="button" value="[◀]" onclick="window.location='진입컨트롤러?requestPage=${blockStartNumber-1}'">
+</c:if>
+<c:forEach var="n" begin="${blockStartNumber}" end="${blockEndNumber}">
+	<c:if test="${n!=pageNum}">
+		<a href="진입컨트롤러?requestPage=${n}">${n}</a>
+	</c:if>
+	<c:if test="${n==pageNum}">
+		<b>${n}</b>
+	</c:if>
+</c:forEach>
+<c:if test="${blockEndNumber!=endPage}">
+	<input type="button" value="[▶]" onclick="window.location='진입컨트롤러?requestPage=${blockEndNumber+1}'">
+	<input type="button" value="[▶▶]" onclick="window.location='진입컨트롤러?requestPage=${endPage}'">
+</c:if>

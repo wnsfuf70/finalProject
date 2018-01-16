@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kos.triple.project.persistence.chul.EpilogueDAO">
+	
+	<resultMap id="epilCourseMap" type="kos.triple.project.vo.Epilogue_courseVO">
+		<id 		property="epilogue_courseNo"		column="epilogue_courseno"/>
+		<result		property="location_num"				column="location_num"/>
+		<result		property="content"					column="content"/>
+		<result		property="img1"						column="img1"/>
+		<result		property="img2"						column="img2"/>
+		<result		property="img3"						column="img3"/>
+		<result		property="img4"						column="img4"/>
+		<result		property="visit_order"				column="visit_order"/>
+		<result		property="dday"						column="dday"/>
+		<result		property="epilogueNo"				column="epilogueNo"/>
+		<association 	property="where"	resultMap="tliMap"/>		
+	</resultMap>
+	
+	<resultMap 		id="tliMap"		type="kos.triple.project.vo.WhereVO">
+		<result		property="location_num"			column="location_num"/>
+		<result		property="thema_category"			column="thema_category"/>
+		<result		property="location_name"			column="location_name"/>
+		<result		property="location_addr"			column="location_addr"/>
+		<result		property="location_img1"			column="location_img1"/>
+		<result		property="location_img2"			column="location_img2"/>
+		<result		property="location_img3"			column="location_img3"/>
+		<result		property="location_img4"			column="location_img4"/>
+		<result		property="x_coordinate"				column="x_coordinate"/>
+		<result		property="y_coordinate"				column="y_coordinate"/>
+		<result		property="location_web"				column="location_web"/>
+		<result		property="like_score"				column="like_score"/>
+		<result		property="normal_score"				column="normal_score"/>
+		<result		property="bad_score"				column="bad_score"/>
+		<result		property="open_time"				column="open_time"/>
+		<result		property="close_time"				column="close_time"/>
+		<result		property="area"						column="area"/>
+	</resultMap>
+	
+	<select id="location" resultMap="tliMap">
+		SELECT location_num, thema_category, location_name, area
+		FROM trip_location_info
+		WHERE location_name LIKE '%'||#{search}||'%'
+	</select>
+	
+	<select id="getNumOfEpil" resultType="int">
+		SELECT NVL(COUNT(*), 0)
+		FROM epilogue
+	</select>
+	
+	<insert id="initialInsertPro" parameterType="java.util.Map">
+		INSERT INTO epilogue (epilogueNo, mem_id)
+		VALUES (#{epilogueNo}, #{mem_id})
+	</insert>
+	
+	<insert id="insertEpilCoursePro" parameterType="java.util.Map">
+		INSERT INTO epilogue_course (epilogue_courseno, location_num, content, visit_order, epilogueNo, dday)
+		VALUES (epilogue_course_seq.nextval, #{location_num}, #{content}, #{visit_order}, #{epilogueNo}, #{dday})
+	</insert>
+	
+	<select id="getNumOfEpilCourse" resultType="int">
+		SELECT NVL(COUNT(*), 0)
+		FROM epilogue_course
+		WHERE epilogueno=#{epilogueNo}
+	</select>
+	
+	<select id="getListOfEpilCourse" resultMap="epilCourseMap">
+		<![CDATA[
+			select *
+			from      (
+          				select ec.epilogue_courseno, ec.img1, ec.visit_order, ec.dday, tl.thema_category, tl.location_name, tl.area, rownum rnum 
+          				from epilogue_course ec left outer join trip_location_info tl
+          				on ec.location_num = tl.location_num
+          				where ec.epilogueno=#{epilogueNo}
+          				order by ec.visit_order asc
+          				)
+		  	where rnum BETWEEN 1 AND #{maxRow}	
+		]]>
+	</select>
+</mapper>

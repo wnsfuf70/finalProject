@@ -1,0 +1,24 @@
+
+4. GitHub 업로드시 소스파일만 업로드
+
+3. GitHub주소 
+
+   https://github.com/wnsfuf70/finalProject.git
+
+
+2. 마이바티스 SQL 작성시 키워드 대문자 컬럼,테이블 소문자
+
+
+1. 커넥션풀
+
+<Resource auth="Container"
+	driverClassName="oracle.jdbc.driver.OracleDriver"
+	maxActive ="50"
+	maxWait="1000"
+	name="jdbc/Oracle11g"
+	username="project"
+	password="project"
+	type="javax.sql.DataSource"
+	url="jdbc:oracle:thin:@101.235.200.100:1521:xe"
+/>
+

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kos.triple.project.persistence.soon.WhereDAO">
+
+	<!-- 인기 장소 -->
+	<select id="where_spot" resultType="kos.triple.project.vo.WhereVO">
+		SELECT * FROM
+		trip_location_info WHERE area=#{area} AND thema_category=#{thema}
+	</select>
+
+	<!-- 장소 상세 보기 -->
+	<select id="detail_view" resultType="kos.triple.project.vo.WhereVO">
+		SELECT * FROM
+		trip_location_info WHERE location_num=#{location_num}
+	</select>
+
+	<!-- 장소 상세 보기 - 좋아요 -->
+	<update id="like_score" parameterType="String">
+		UPDATE trip_location_info
+		SET like_score=(like_score+1) WHERE location_num=#{location_num}
+	</update>
+
+	<!-- 장소 상세 보기 - 보통이에요 -->
+	<update id="normal_score" parameterType="String">
+		UPDATE
+		trip_location_info SET normal_score=(normal_score+1) WHERE
+		location_num=#{location_num}
+	</update>
+
+	<!-- 장소 상세 보기 - 싫어요 -->
+	<update id="bad_score" parameterType="String">
+		UPDATE trip_location_info
+		SET bad_score=(bad_score+1) WHERE location_num=#{location_num}
+	</update>
+
+	<!-- 검색 -->
+	<select id="search" resultType="kos.triple.project.vo.WhereVO">
+		<![CDATA[SELECT * FROM trip_location_info WHERE instr(location_name,+#{search}) > 0 or instr(area,+#{search}) > 0 or instr(location_addr,+#{search}) > 0 or instr(thema_category,+#{search}) > 0]]>
+	</select>
+
+
+
+	<!-- 장소 목록 -->
+	<select id="where_list" resultType="kos.triple.project.vo.WhereVO">
+	<![CDATA[SELECT * FROM (SELECT location_num, thema_category, location_name,
+		location_addr, location_img1,
+		location_img2, location_img3,
+		location_img4, detail_info, x_coordinate, y_coordinate, location_web,
+		like_score, normal_score, bad_score, open_time, close_time, area, ROWNUM rnum FROM trip_location_info ) WHERE rnum >= #{start} AND rnum <= #{end}]]>
+	</select>
+	
+	<!-- 장소 개수 -->
+	<select id="getCountCnt" resultType="int">
+		SELECT COUNT(*) FROM trip_location_info
+	</select>
+
+	<!-- 장소 추가 -->
+	<insert id="where_add" parameterType="kos.triple.project.vo.WhereVO">
+		INSERT INTO
+		trip_location_info(location_num, thema_category, location_name,
+		location_addr, location_img1,
+		location_img2, location_img3,
+		location_img4, detail_info, x_coordinate, y_coordinate, location_web,
+		like_score, normal_score, bad_score, open_time, close_time, area)
+		VALUES(location_num_seq.NEXTVAL,
+		#{thema_category},
+		#{location_name},
+		#{location_addr}, #{location_img1}, #{location_img2},
+		#{location_img3}, #{location_img4},
+		#{detail_info}, #{x_coordinate},
+		#{y_coordinate}, #{location_web}, 0, 0, 0, #{open_time},
+		#{close_time},
+		#{area})
+	</insert>
+
+	<!-- 장소 확인 -->
+	<select id="where_check" resultType="kos.triple.project.vo.WhereVO">
+		SELECT * FROM
+		trip_location_info WHERE location_num=#{location_num}
+	</select>
+
+	<!-- 장소 삭제 -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM trip_location_info
+		WHERE location_num=#{location_num}
+	</delete>
+	
+	<!-- 장소 정보 가져오기 -->
+	<select id="modify" resultType="kos.triple.project.vo.WhereVO">
+		SELECT * FROM trip_location_info WHERE location_num=#{location_num}
+	</select>
+	
+	<!-- 장소 수정 -->
+	<update id="modify_pro" parameterType="kos.triple.project.vo.WhereVO">
+		UPDATE trip_location_info 
+		SET thema_category=#{thema_category}, location_name=#{location_name}, location_addr=#{location_addr}
+			,detail_info=#{detail_info}, x_coordinate=#{x_coordinate}, y_coordinate=#{y_coordinate}, location_web=#{location_web}, open_time=#{open_time}, close_time=#{close_time}, area=#{area} 
+		WHERE location_num=#{location_num}
+	</update>
+	
+	<update id="updateImg" parameterType="java.util.Map">
+		UPDATE trip_location_info 
+		<choose>
+			<when test="location.equals('img1')">
+				SET location_img1=#{imgName}
+			</when>
+			<when test="location.equals('img2')">
+				SET location_img2=#{imgName}
+			</when>
+			<when test="location.equals('img3')">
+				SET location_img3=#{imgName}
+			</when>
+			<when test="location.equals('img4')">
+				SET location_img4=#{imgName}
+			</when>
+		</choose>
+		WHERE location_num=#{location_num}
+		
+		
+	</update>
+	
+	<!-- 장소 수정 -->
+
+</mapper>

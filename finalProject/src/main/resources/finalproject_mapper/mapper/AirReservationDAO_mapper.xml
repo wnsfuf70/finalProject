@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kos.triple.project.persistence.joon.AirReservationDAO">
+
+	<select id="getAirPortInfo_proc" resultType="kos.triple.project.vo.AirPortVO">
+		SELECT airportNo,airportName,airportTel,xPos,yPos
+		FROM airport
+	</select>
+	
+	<select id="getAirPlane_proc" resultType="kos.triple.project.vo.AirPlaneVO">
+		SELECT airplaneNo , airplanename 
+			 , premium , highclass , nomal 
+			 , TO_CHAR(premium+highclass+nomal) as seatPriceCode , routeNo
+    	FROM airplane
+    	ORDER BY airplaneNo
+	</select>
+	
+	<insert id="addAirPlane_proc" parameterType="kos.triple.project.vo.AirPlaneVO">
+		<![CDATA[
+			INSERT INTO airplane(
+				airPlaneNo,airPlaneName,
+				premium,highClass,nomal
+			) 
+			VALUES(
+				#{airPlaneNo}||TO_CHAR(airplane_seq.nextval),#{airPlaneName},
+				#{premium},#{highClass},#{nomal}
+			)
+		]]>
+	</insert>
+	
+	<select id="getLastAirPlaneNo_proc" resultType="int">
+		<![CDATA[
+			SELECT AIRPLANE_SEQ.CURRVAL
+			FROM DUAL
+		]]>
+	</select>
+	
+	<delete id="deleteAirPlane_proc" parameterType="String">
+		<![CDATA[
+			DELETE FROM airplane
+			WHERE airPlaneNo=#{airPlaneNo} AND routeNO is null
+		]]>
+	</delete>
+	
+	<select id="getAirPlaneOne_proc" parameterType="String" resultType="kos.triple.project.vo.AirPlaneVO">
+		SELECT * 
+		FROM airplane 
+		WHERE airPlaneNo=#{airPlaneNo}
+	</select>
+	
+	<select id="getAirPlaneAll_proc" resultType="kos.triple.project.vo.AirPlaneVO">
+		SELECT * 
+		FROM airplane 
+	</select>
+	
+	<update id="modifyAirPlane_proc" parameterType="kos.triple.project.vo.AirPlaneVO">
+		UPDATE airplane
+		SET airPlaneName = #{airPlaneName}
+		   ,premium = #{premium}
+		   ,highClass = #{highClass}
+		   ,nomal = #{nomal}
+		WHERE airPlaneNo=#{airPlaneNo}
+	</update>
+	
+	<select id="getAirPortInfoOne_proc" parameterType="String" 
+			resultType="kos.triple.project.vo.AirPortVO" >
+		SELECT *
+		FROM airport
+		WHERE airportName = #{airPortName}
+	</select>
+	
+	<insert id="setRoute_proc_step1" parameterType="java.util.Map">
+		<![CDATA[
+			INSERT INTO route
+			VALUES(
+				TO_CHAR('R'||TO_CHAR(ROUTE_SEQ.NEXTVAL)),
+				#{startAirPortNo},#{midAirPortNo},#{endAirPortNo},
+				#{startTime},
+				#{midTime},
+				#{arrivalTime},
+				#{stepOneDistence},
+				#{stepTwoDistence}
+			)
+		]]>
+	</insert>
+	
+	<select id="getLastRouteNo" resultType="String">
+		<![CDATA[
+			SELECT TO_CHAR(ROUTE_SEQ.CURRVAL)
+			FROM DUAL
+		]]>
+	</select>
+	
+	 <update id="setRoute_proc_step2" parameterType="java.util.Map">
+	 	UPDATE airplane
+	 	SET routeNo=#{routeNo}
+	 	WHERE airPlaneNo=#{airPlaneNo}
+	 </update>
+	 
+	 <select id="setRouteCancel_proc_step1" resultType="String" parameterType="String">
+	 	SELECT routeNo FROM airplane WHERE airPlaneNo=#{airPlaneNo}
+	 </select>
+	 
+	 <update id="setRouteCancel_proc_step2" parameterType="String">
+	 	UPDATE airplane
+	 	SET routeNo = null
+	 	WHERE airPlaneNo=#{airPlaneNo}
+	 </update>
+	 
+	 <delete id="setRouteCancel_proc_step3" parameterType="String">
+	 	DELETE FROM route WHERE routeNo=#{routeNo}
+	 </delete>
+	
+	<select id="getSeatDefaultPrice_proc" resultType="kos.triple.project.vo.SeatPriceVO">
+		SELECT * FROM seatPrice WHERE seatPriceCode='SEATPRICECODE_1'
+	</select>
+	
+	<update id="setSeatPrice_proc_step1" parameterType="kos.triple.project.vo.SeatPriceVO">
+		UPDATE seatPrice
+		SET premium_A=#{premium_A},premium_B=#{premium_B},premium_C=#{premium_C},
+			highClass_A=#{highClass_A},highClass_B=#{highClass_B},highClass_C=#{highClass_C},
+			nomal_A=#{nomal_A},nomal_B=#{nomal_B},nomal_C=#{nomal_C}
+		WHERE seatPriceCode='SEATPRICECODE_1'
+	</update>
+	
+	<update id="setSeatPrice_proc_step2" parameterType="String">
+		UPDATE airplane
+		SET seatPriceCode='SEATPRICECODE_1'
+		WHERE airplaneNo=#{airPlaneNo}
+	</update>
+	
+	<insert id="setCustomSeatPrice_proc_step1" parameterType="kos.triple.project.vo.SeatPriceVO">
+		INSERT INTO seatPrice 
+		VALUES( #{seatPriceCode}||TO_CHAR(SEATPRICE_SEQ.NEXTVAL),
+			#{premium_A},#{premium_B},#{premium_C},
+			#{highClass_A},#{highClass_B},#{highClass_C},
+			#{nomal_A},#{nomal_B},#{nomal_C}
+		)
+	</insert>
+	
+	<select id="setCustomSeatPrice_proc_step2" resultType="int">
+		SELECT SEATPRICE_SEQ.CURRVAL FROM DUAL
+	</select>
+	
+	<update id="setCustomSeatPrice_proc_step3" parameterType="java.util.Map">
+		UPDATE airplane
+		SET seatPriceCode = #{seatPriceCode}
+		WHERE airplaneNo = #{airPlaneNo}
+	</update>
+	
+	<select id="getSeatPriceInfo_proc" 
+		parameterType="String"
+		resultType="kos.triple.project.vo.SeatPriceVO">
+		SELECT s.SEATPRICECODE , 
+		      premium_A , premium_B , premium_C ,
+		      highClass_A , highClass_B , highClass_C ,
+		      nomal_A , nomal_B , nomal_C
+		FROM AIRPLANE a
+		JOIN SEATPRICE s
+		ON a.seatpriceCode = s.seatpriceCode
+		WHERE airplaneNo=#{airPlaneNo}
+	</select>
+	
+	<update id="modifySeatPrice_proc" parameterType="kos.triple.project.vo.SeatPriceVO">
+		UPDATE seatprice
+		SET premium_A=#{premium_A} , premium_B=#{premium_B} , premium_C=#{premium_C} ,
+			highClass_A=#{highClass_A} , highClass_B=#{highClass_B} , highClass_C=#{highClass_C} ,
+			nomal_A=#{nomal_A} , nomal_B=#{nomal_B} , nomal_C=#{nomal_C}
+		WHERE seatPriceCode=#{seatPriceCode}
+	</update>
+	
+	
+	
+	<resultMap type="kos.triple.project.vo.AirReservationSearchVO" id="airPlaneSearch">
+		<collection property="a" ofType="kos.triple.project.vo.AirPlaneVO">
+			<id property="airPlaneNo" column="airPlaneNo" />
+			<result property="airPlaneName" column="airPlaneName" />
+			<result property="airPortNo" column="airPortNo" />
+			<result property="seatPriceCode" column="seatPriceCode" />
+			<result property="premium" column="premium" />
+			<result property="highClass" column="highClass" />
+			<result property="nomal" column="nomal" />
+		</collection>
+		<collection property="r" ofType="kos.triple.project.vo.RouteVO">
+				<id property="routeNo" column=""/>
+				<result property="route1" column="route1"/>
+				<result property="route2" column="route2"/>
+				<result property="route3" column="route3"/>
+				<result property="startTime" column="startTime"/>
+				<result property="midTime" column="midTime"/>
+				<result property="arrivalTime" column="arrivalTime"/>
+				<result property="distance1" column="distance1"/>
+				<result property="distance2" column="distance2"/>
+		</collection>
+	</resultMap>
+	
+	<select id="airPlaneSearch" parameterType="java.util.Map" 
+			resultMap="airPlaneSearch">
+	<!--  
+		map.put("seatLevel",sl);
+		map.put("startAirport_Key",sk);
+		map.put("endAirport_Key",ek);
+		map.put("s_fromDate",sfd);
+		map.put("s_toDate",std);	
+		날짜처리하는 쿼리 확인후 처리 요망...
+	-->
+		SELECT * 
+		FROM route 
+		NATURAL JOIN airplane 
+		WHERE route1=#{startAirport_Key} 
+		AND ( route2=#{endAirport_Key} OR route3=#{endAirport_Key} )
+	</select>
+
+</mapper>

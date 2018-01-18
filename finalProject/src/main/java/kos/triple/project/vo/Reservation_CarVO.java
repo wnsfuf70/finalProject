@@ -22,6 +22,7 @@ public class Reservation_CarVO {
 	private String return_time;
 	private String car_name;
 	private int car_count;
+	private int seq;
 	
 	public String getRent_no() {
 		return rent_no;
@@ -142,7 +143,9 @@ public class Reservation_CarVO {
 	}
 	public void setCar_count(int car_count) {
 		this.car_count = car_count;
+	}	
+	public int getSeq() {
+		return this.seq;
 	}
-	
 
 }

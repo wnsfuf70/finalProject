@@ -41,7 +41,7 @@ $(function() {
 			return false;
 		})
 		
-			//항공예약관리 클릭
+		//항공예약관리 클릭
 		$("#airplane_click").click(function(){
 			$(".reservation_manager").css("display","block");
 			$(".homepage_manager").css("display","none");
@@ -52,7 +52,7 @@ $(function() {
 						  "<ul class='nav nav-pills nav-stacked'>" +
 						  "<li><a href='airReservationList' target='contentFrame'>예약 리스트 보기</a></li>" +
 						  "<li><a href='airReservationCancelList' target='contentFrame'>예약 취소 보기</a></li>" +
-				 		  "<li><a href='airRouteAdd' target='contentFrame'>항공 노선 추가</a></li>" +
+				 		  "<li><a href='airPlaneAdd' target='contentFrame'>항공 노선 추가</a></li>" +
 						  "<li><a href='airOperationChange' target='contentFrame'>항공 운행 정보 변경</a></li>" +
 						  "</ul><br>";
       

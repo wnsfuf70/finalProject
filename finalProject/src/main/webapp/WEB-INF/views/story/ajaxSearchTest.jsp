@@ -23,7 +23,7 @@
 <div class="searchResultContainer">
 	<c:forEach var="where_info" items="${where}">
 		<div class="oneSearchResult" id="oneSearchResult" style="border:1px solid gray;">	
-			<input type="hidden" value="${where_info.location_num}">
+			<input id="location_num" name="location_num" type="hidden" value="${where_info.location_num}">
 			<p>${where_info.thema_category}</p>
 			<p>${where_info.area}</p>
 			<p id="targetSearch">${where_info.location_name}<input type="hidden" id="targetValue" name="targetValue" value="${where_info.location_name}"></p>

@@ -3,6 +3,7 @@ package kos.triple.project.service.chul;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface EpilogueService {
 	
@@ -12,7 +13,7 @@ public interface EpilogueService {
 	
 	public void initialInsert(HttpServletRequest req, Model model);
 
-	public void insertEpilCourse(HttpServletRequest req, Model model);
+	public void insertEpilCourse(MultipartHttpServletRequest multi, Model model);
 	
-	public void getEpilCourse(HttpServletRequest req, Model model);
+	public void getEpilCourse(MultipartHttpServletRequest req, Model model);
 }

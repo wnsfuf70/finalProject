@@ -5,6 +5,14 @@
     
 <mapper namespace="kos.triple.project.persistence.joon.AirReservationDAO">
 
+	<select id="getReserVationInfo_proc" parameterType="String" resultMap="airPlaneSearch">
+		SELECT * 
+		FROM AIRPLANE
+		NATURAL JOIN ROUTE
+		NATURAL JOIN SEATPRICE
+		WHERE airPlaneNo = #{airPlaneNo}
+	</select>
+
 	<select id="getAirPortInfo_proc" resultType="kos.triple.project.vo.AirPortVO">
 		SELECT airportNo,airportName,airportTel,xPos,yPos
 		FROM airport
@@ -82,7 +90,8 @@
 				#{midTime},
 				#{arrivalTime},
 				#{stepOneDistence},
-				#{stepTwoDistence}
+				#{stepTwoDistence},
+				#{resultDistance}
 			)
 		]]>
 	</insert>
@@ -194,24 +203,42 @@
 				<result property="arrivalTime" column="arrivalTime"/>
 				<result property="distance1" column="distance1"/>
 				<result property="distance2" column="distance2"/>
+				<result property="resultDistance" column="resultDistance"/>
 		</collection>
+		<collection property="s" ofType="kos.triple.project.vo.SeatPriceVO">
+			<id property="seatPriceCode" column="seatPriceCode" />
+			<result property="premium_A" column="premium_A" />
+			<result property="premium_B" column="premium_B" />
+			<result property="premium_C" column="premium_C" />
+			<result property="highClass_A" column="highClass_A" />
+			<result property="highClass_B" column="highClass_B" />
+			<result property="highClass_C" column="highClass_C" />
+			<result property="nomal_A" column="nomal_A" />
+			<result property="nomal_B" column="nomal_B" />
+			<result property="nomal_C" column="nomal_C" />
+		</collection>
+
 	</resultMap>
 	
-	<select id="airPlaneSearch" parameterType="java.util.Map" 
-			resultMap="airPlaneSearch">
-	<!--  
-		map.put("seatLevel",sl);
-		map.put("startAirport_Key",sk);
-		map.put("endAirport_Key",ek);
-		map.put("s_fromDate",sfd);
-		map.put("s_toDate",std);	
-		날짜처리하는 쿼리 확인후 처리 요망...
-	-->
-		SELECT * 
-		FROM route 
-		NATURAL JOIN airplane 
-		WHERE route1=#{startAirport_Key} 
-		AND ( route2=#{endAirport_Key} OR route3=#{endAirport_Key} )
+	<select id="airPlaneSearch" parameterType="java.util.Map" resultMap="airPlaneSearch">
+			SELECT * 
+			FROM route 
+			NATURAL JOIN airplane
+			NATURAL JOIN seatPrice
+			WHERE route1=#{startAirport_Key} 
+			AND ( route2=#{endAirport_Key} OR route3=#{endAirport_Key} )
+		<if test="s_fromDate != null or s_fromDate.equals('')">
+			AND starttime &gt;= #{s_fromDate}
+		</if>
+		<if test="s_toDate != null or s_toDate.equals('')">
+			AND arrivaltime &lt;= #{s_toDate}
+		</if>
+		ORDER BY startTime
 	</select>
-
+	
+	<select id="getAirPortLocation_proc" parameterType="String" resultType="kos.triple.project.vo.AirPortVO">
+		SELECT *
+		FROM airPort
+		WHERE airPortNo=#{airPortNo}
+	</select>
 </mapper>

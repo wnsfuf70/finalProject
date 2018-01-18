@@ -4,6 +4,7 @@ public class AirReservationSearchVO {
 	
 	private RouteVO r;
 	private AirPlaneVO a;
+	private SeatPriceVO s;
 	
 	public AirReservationSearchVO() {
 
@@ -24,6 +25,15 @@ public class AirReservationSearchVO {
 	public void setA(AirPlaneVO a) {
 		this.a = a;
 	}
+
+	public SeatPriceVO getS() {
+		return s;
+	}
+
+	public void setS(SeatPriceVO s) {
+		this.s = s;
+	}
+	
 	
 	
 }

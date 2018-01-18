@@ -29,33 +29,36 @@ $(document).ready(function(){
 		
 		var epilogueNo = JSON.stringify($('#epilogueNo').val());
 		var dday = JSON.stringify($('#dday').val());
-		var location_num = JSON.stringify("14");
+		var location_num = JSON.stringify($('#location_num').val());
 		var content = JSON.stringify($('#epilContent').val());
-		var visit_order = JSON.stringify("1");
 		
+		var formData = new FormData();
 		
-		var param = {};
-		
-		param.epilogueNo = epilogueNo;
-		param.location_num = location_num;
-		param.content = content;
-		param.visit_order = visit_order;
-		param.dday = dday;
+		formData.append('epilogueNo', epilogueNo);
+		formData.append('dday', dday);
+		formData.append('location_num', location_num);
+		formData.append('content', content);
+		formData.append('uploadFile', document.getElementById('atch_file').files[0]);
 		
 		$.ajax({
 			url : 'writeEpilCourse',
 			type : 'POST',
-			data : param,
+			data : formData,
+			
+			processData : false,
+			contentType : false,
 			
 			success : function(msg){
 				$('.sidebar-nav').html(msg);
+				return false;
 			},
 			
 			error : function(){
 				alert('error');
+				return false;
 			}
+			
 		});
 		
 	});
-	
 });

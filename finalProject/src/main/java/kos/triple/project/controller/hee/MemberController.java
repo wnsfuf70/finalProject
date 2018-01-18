@@ -121,14 +121,6 @@ public class MemberController {
 		return "mypage/deletePro";
 		
 	}	
-	
-	@RequestMapping(value="myReservation")
-	public String myReservation(HttpServletRequest req , Model model) {
 		
-		service.deletePro(req, model);
-		
-		return "mypage/reservation/myReservation";
-		
-	}	
 
 }

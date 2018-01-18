@@ -43,7 +43,7 @@
   	<a href="#" class="w3-bar-item w3-button">나의 후기</a>
   	<a href="#" class="w3-bar-item w3-button">내 여행 기록</a>
  	
- 	<a href="myReservation" class="w3-bar-item w3-button">예약 목록</a>
+ 	<a href="myReservation" target="contentFrame" class="w3-bar-item w3-button">예약 목록</a>
  	
  	
  	<a href="qnaList" class="w3-bar-item w3-button">나의 QnA</a>
@@ -52,8 +52,6 @@
 
 </div>
  
-
-    
 
  
 <div id="main">
@@ -118,7 +116,9 @@
 <p>When it is opened, it shifts the page content to the right.</p>
 <p>We use JavaScript to add a 25% left margin to the div element with id="main" when this happens. The value "25%" matches the width of the sidebar.</p> -->
 </div>
-
+	   <div style="position:relative;display:block;height:0;padding:0;overflow:hidden;padding-bottom:56.25%; border:1px solid red">
+    		<iframe src="" name="contentFrame" style="position:absolute;top:0;left:0;bottom:0;height:100%;width:100%;border:0;"></iframe>
+	  </div>
 </div>
 
 	

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import kos.triple.project.service.hee.MemberService;
-import kos.triple.project.service.hee.MemberServiceImpl;
-import kos.triple.project.vo.MemberVO;
 
 @Controller
 public class MemberController {
@@ -125,7 +125,14 @@ public class MemberController {
 	@RequestMapping(value="myReservation")
 	public String myReservation(HttpServletRequest req , Model model) {
 		
-		service.deletePro(req, model);
+		
+		/*RedirectView redirectView = new RedirectView("airOperationChange");
+		redirectView.setContextRelative(true);
+
+		mav.setView(redirectView);
+		return mav;*/
+		
+		
 		
 		return "mypage/reservation/myReservation";
 		

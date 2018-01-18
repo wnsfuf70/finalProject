@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import kos.triple.project.vo.AirPlaneVO;
 import kos.triple.project.vo.AirPortVO;
+import kos.triple.project.vo.AirReservationDetailVO;
 import kos.triple.project.vo.AirReservationSearchVO;
+import kos.triple.project.vo.RouteVO;
 import kos.triple.project.vo.SeatPriceVO;
 
 @Repository
@@ -215,6 +217,67 @@ public class AirReservationDAOImpl implements AirReservationDAO{
 		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
 		vo = dao.getReserVationInfo_proc(airPlaneNo);
 		return vo;
+	}
+
+	@Override
+	public int airResProc_proc(AirReservationDetailVO vo) {
+		int cnt = 0;
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		cnt = dao.airResProc_proc(vo);
+		
+		return cnt;
+	}
+
+	@Override
+	public int modifyAirPlane_remainSeat_proc(Map<String, Object> map) {
+		int cnt = 0;
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		cnt = dao.modifyAirPlane_remainSeat_proc(map);
+		
+		return cnt;
+	}
+
+	@Override
+	public AirPlaneVO getRemainSeat_proc(String airPlaneNo) {
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		AirPlaneVO vo = dao.getRemainSeat_proc(airPlaneNo);
+		return vo;
+	}
+
+	@Override
+	public String getRouteNo_proc(String airPlaneNo) {
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		String routeNo = dao.getRouteNo_proc(airPlaneNo);
+		return routeNo;
+	}
+
+	@Override
+	public RouteVO getRouteInfo_proc(String routeNo) {
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		RouteVO vo = dao.getRouteInfo_proc(routeNo);
+		return vo;
+	}
+
+	@Override
+	public List<AirReservationDetailVO> getMyPageReserAirPlane_proc(Map<String, Object> map) {
+		
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		List<AirReservationDetailVO> voList = dao.getMyPageReserAirPlane_proc(map);
+		
+		return voList;
+	}
+
+	@Override
+	public int getListCount(Map<String, Object> map) {
+		
+		int cnt = 0;
+		AirReservationDAO dao = sqlSession.getMapper(AirReservationDAO.class);
+		cnt = dao.getListCount(map);
+		return cnt;
 	}
 
 	

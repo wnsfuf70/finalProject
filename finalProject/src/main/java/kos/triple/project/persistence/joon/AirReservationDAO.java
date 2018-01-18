@@ -5,7 +5,9 @@ import java.util.Map;
 
 import kos.triple.project.vo.AirPlaneVO;
 import kos.triple.project.vo.AirPortVO;
+import kos.triple.project.vo.AirReservationDetailVO;
 import kos.triple.project.vo.AirReservationSearchVO;
+import kos.triple.project.vo.RouteVO;
 import kos.triple.project.vo.SeatPriceVO;
 
 public interface AirReservationDAO {
@@ -67,6 +69,26 @@ public interface AirReservationDAO {
 	//에약하기전 보여줄 모든정보를 가져온다.
 	public AirReservationSearchVO getReserVationInfo_proc(String airPlaneNo);
 
+	//예약을 한다.
+	public int airResProc_proc(AirReservationDetailVO vo);
+
+	//남은 좌석수를 업데이트한다.
+	public int modifyAirPlane_remainSeat_proc(Map<String, Object> map);
+
+	//남은 좌석수를 가져온다.
+	public AirPlaneVO getRemainSeat_proc(String airPlaneNo);
+
+	//항공의 노선번호를 가져온다.
+	public String getRouteNo_proc(String airPlaneNo);
+
+	//노선의 정보를 가져온다.
+	public RouteVO getRouteInfo_proc(String routeNo);
+
+	//항공예약목록을 가져온다.
+	public List<AirReservationDetailVO> getMyPageReserAirPlane_proc(Map<String , Object> map);
+
+	//select 결과의 총개수를 구해온다.
+	public int getListCount(Map<String,Object> map);
 	
 	//입력한 가격으로 설정한다.
 	

@@ -76,6 +76,23 @@
 		}
 		
 		function setRouteCancel(planeNo) {
+			
+			var remainSeat = $("#"+planeNo+"_remainSeat").text();
+			var size = $("#"+planeNo+"_size").text();
+			
+			if(size.trim()=='소형'){
+				if(remainSeat != 28){
+					alert("운항이 확정되었습니다.");
+					return false;	
+				}
+			}
+			else if(size.trim()=='대형'){
+				if(remainSeat != 50){
+					alert("운항이 확정되었습니다.");
+					return false;	
+				}
+			}
+			
 			if(confirm("배정을 취소하려면 확인을 누르세요")){
 				window.location="setRouteCancel?airPlaneNo="+planeNo;
 				return false;
@@ -291,7 +308,7 @@
 						<tr>
 							<td>항공기번호</td>
 							<td>항공기명</td>
-							<td>총 좌석수</td>
+							<td>남은 좌석수</td>
 							<td>사이즈</td>
 							<td>노선배정여부</td>
 							<td>가격</td>
@@ -304,10 +321,17 @@
 						<tr>
 							<td>${i.airPlaneNo}</td>
 							<td>${i.airPlaneName }</td>
-							<td>${i.premium + i.highClass + i.nomal}</td>
-							<td>
-								<c:if test="${i.premium==2}">소형</c:if>
-								<c:if test="${i.premium==8}">대형</c:if>
+							<td id="${i.airPlaneNo}_remainSeat">
+								<c:if test="${(i.premium + i.highClass + i.nomal) != 0 }">
+									${i.premium + i.highClass + i.nomal}
+								</c:if>
+								<c:if test="${(i.premium + i.highClass + i.nomal) == 0 }">
+									매진
+								</c:if>
+							</td>
+							<td id="${i.airPlaneNo }_size">
+								<c:if test="${i.airPlaneSize=='small'}">소형</c:if>
+								<c:if test="${i.airPlaneSize=='large'}">대형</c:if>
 							</td>
 							<td>
 								<c:if test="${i.routeNo==null}">
@@ -350,7 +374,7 @@
 			<div class="col-md-8">
 				<input type="hidden" id="setPriceTargetAirPlane" name="airPlaneNo">
 				<div class="container-fluid" style="width:100%">
-					<h3>기본 요금 설정<small>1km당 요금으로 거리비례하여 요금이 산출된다.</small></h3><br>
+					<h3>기본 요금 설정<small>1km당 요금으로 거리비례하여 요금 산출</small></h3><br>
 						<div class="row">
 							<div class="col-xs-3">
 								
@@ -436,7 +460,7 @@
 			
 				<input type="hidden" name="airPlaneNo"> 
 				<div class="container" style="width:100%">
-					<h3>경로설정</h3><br>
+					<h3><span class="glyphicon glyphicon-flag"></span>경로설정</h3><br>
 					<div class="well well-lg" style="background-color: white; border-color: cornflowerblue;">
 						<div class="row">
 							<div class="col-xs-3">
@@ -451,9 +475,14 @@
 								</div>
 							</div>
 							<div class="col-xs-1">
-								>>>>>>
-								<div id="step1"></div>
-								<input type="hidden" name="stepOne">
+								<div style="position: relative;">
+									<div style="position: absolute; top: 50px; left:-5px;">
+										<span class="glyphicon glyphicon-forward"></span>
+										<span class="glyphicon glyphicon-forward"></span>
+										<div id="step1"></div>
+										<input type="hidden" name="stepOne">
+									</div>
+								</div>
 							</div>
 							<div class="col-xs-3">
 								<div class="well well-lg">
@@ -463,9 +492,14 @@
 								</div>
 							</div>
 							<div class="col-xs-1">
-								>>>>>>
-								<div id="step2"></div>
-								<input type="hidden" name="stepTwo">
+								<div style="position: relative;">
+									<div style="position: absolute; top: 50px; left:-5px;">
+										<span class="glyphicon glyphicon-forward"></span>
+										<span class="glyphicon glyphicon-forward"></span>
+										<div id="step2"></div>
+										<input type="hidden" name="stepTwo">
+									</div>
+								</div>
 							</div>
 							<div class="col-xs-3">
 								<div class="well well-lg">
@@ -481,13 +515,16 @@
 				
 			<hr>
 			<div>
-				총비행거리 : <span id="totalDistance"></span>
+				<span class="glyphicon glyphicon-road"></span>&nbsp;총비행거리  : <span id="totalDistance"></span>
 			</div>
 			<hr>
 			<!--  -->
 				<div class="container">
 				    <div class="col-sm-6" style="height:130px;">
 				        <div class="form-group">
+				        	<h6><span class="glyphicon glyphicon-time"></span>
+				        		출발일시
+				        	</h6>
 				            <div class='input-group date' id='datetimepicker10'>
 				                <input type='datetime-local' class="form-control" name="startTime" />
 				                <span class="input-group-addon">
@@ -529,7 +566,7 @@
 			
 				<input type="hidden" name="airPlaneNo"> 
 				<div class="container" style="width:100%">
-					<<h3>요금 설정<small>1km당 요금으로 거리비례하여 요금이 산출된다.</small></h3><br>
+					<h3>요금 설정<small>1km당 요금으로 거리비례하여 요금이 산출된다.</small></h3><br>
 						<div class="row">
 							<div class="col-xs-3">
 								
@@ -624,7 +661,7 @@
 				<input type="hidden" name="airPlaneNo">
 				<input type="hidden" name="seatPriceCode">
 				<div class="container" style="width:100%">
-					<h3>요금 설정<small>1km당 요금으로 거리비례하여 요금이 산출된다.</small></h3><br>
+					<h3>요금 설정<small>1km당 요금으로 거리비례하여 요금 산출</small></h3><br>
 						<div class="row">
 							<div class="col-xs-3">
 								

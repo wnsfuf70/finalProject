@@ -241,8 +241,8 @@
 									<td>${i.nomal }</td>
 									<td>${i.seatPriceCode}</td>
 									<td>
-										<c:if test="${i.seatPriceCode=='28'}">소형</c:if>
-										<c:if test="${i.seatPriceCode=='50'}">대형</c:if>
+										<c:if test="${i.airPlaneSize=='small'}">소형</c:if>
+										<c:if test="${i.airPlaneSize=='large'}">대형</c:if>
 									</td>
 									<td>
 										<c:if test="${i.routeNo==null}">운항가능</c:if>

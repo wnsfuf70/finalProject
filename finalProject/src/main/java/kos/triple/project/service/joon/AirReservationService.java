@@ -56,6 +56,15 @@ public interface AirReservationService {
 
 	//예약하기위한 항공기,루트,가격 정보를 가져온다 (예약정보를가져온다)
 	public void getReserVationInfo(HttpServletRequest req, Model model);
+
+	//결제완료를 눌렀을때(결제)
+	public void airResProc(HttpServletRequest req, Model model);
+
+	//남은 좌석을 가져온다.
+	public void getRemainSeat(HttpServletRequest req);
+
+	//마이페이지 항공예약 목록을 가져온다.
+	public void getMyPageReserAirPlane(HttpServletRequest req);
 	
 	//항공편 검색
 	

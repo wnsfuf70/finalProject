@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import kos.triple.project.service.joon.AirReservationService;
 import kos.triple.project.vo.AirPlaneVO;
+import kos.triple.project.vo.AirReservationDetailVO;
 import kos.triple.project.vo.SeatPriceVO;
 
 @Controller
@@ -21,6 +21,17 @@ public class AirReservationController {
 	@Autowired
 	AirReservationService service;
 	
+	
+	@RequestMapping(value="myPageReservationStart")
+	public String myPageStart(HttpServletRequest req, Model model){	
+		
+		//마이페이지에서 항공예약목록을
+		service.getMyPageReserAirPlane(req);
+		
+
+		return "mypage/reservation/myReservation";
+		
+	}	
 	/* 클라이언트 페이지 */
 	
 	@RequestMapping(value="airReservation")
@@ -65,11 +76,82 @@ public class AirReservationController {
 	}
 	
 	
+	//티켓구매버튼누른후 이동된페이지
+	@RequestMapping(value="airReservating")
+	public String airReservating(HttpServletRequest req ,Model model) {
+		
+		System.out.println("airReservating() ");
+		
+		String airPlaneNo = req.getParameter("airPlaneNo");
+		String startLocation = req.getParameter("startLocation");
+		String endLocation = req.getParameter("endLocation");
+		
+		String price = req.getParameter("price");
+		
+		String adult = req.getParameter("adult");
+		String student = req.getParameter("student");
+		String baby = req.getParameter("baby");
+		
+		String seatLevel_adult = req.getParameter("seatLevel_adult");
+		String seatLevel_student = req.getParameter("seatLevel_student");
+		String seatLevel_baby = req.getParameter("seatLevel_baby");
+		String startTime = req.getParameter("startTime");
+		String endTime = req.getParameter("endTime");
+		
+		AirReservationDetailVO vo = new AirReservationDetailVO();
+		
+		vo.setAirPlaneNo(airPlaneNo);
+		vo.setStartLocation(startLocation);
+		vo.setEndLocation(endLocation);
+		
+		vo.setPrice(Integer.parseInt(price));
+		
+		vo.setAdult(Integer.parseInt(adult));
+		vo.setStudent(Integer.parseInt(student));
+		vo.setBaby(Integer.parseInt(baby));
+		
+		vo.setSeatLevel_adult(seatLevel_adult);
+		vo.setSeatLevel_student(seatLevel_student);
+		vo.setSeatLevel_baby(seatLevel_baby);
+		
+		model.addAttribute("vo",vo);
+		model.addAttribute("startTime",startTime);
+		model.addAttribute("endTime",endTime);
+		
+		return "reservation/air/airTiketBuyPageStep2";
+	}
+	
+	
+	//결제하기 버튼 클릭 -> 결제완료
+	@RequestMapping(value="airResProc")
+	public String airResProc(HttpServletRequest req ,Model model) {
+	
+		service.airResProc(req,model);
+		
+		return "reservation/air/airTiketBuyPageStep3";
+	}
+	
+	//남은 좌석을 가져온다.
+	@RequestMapping(value="getRemainSeat")
+	public @ResponseBody AirPlaneVO getRemainSeat(HttpServletRequest req) {
+	
+		AirPlaneVO vo = null;
+		
+		service.getRemainSeat(req);
+		
+		vo = (AirPlaneVO)req.getAttribute("vo");
+		System.out.println("---------------------");
+		System.out.println(vo.getAirPlaneNo());
+		System.out.println(vo.getNomal());
+		System.out.println(vo.getHighClass());
+		System.out.println(vo.getPremium());
+		System.out.println("---------------------");
+		
+		return vo;
+	}
+	
+	
 	/* 클라이언트 페이지 */
-	
-	
-	
-	
 	
 	/* 관리자페이지 */
 	

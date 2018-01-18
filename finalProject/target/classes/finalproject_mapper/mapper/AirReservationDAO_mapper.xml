@@ -4,7 +4,69 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="kos.triple.project.persistence.joon.AirReservationDAO">
+	
+	
 
+	<select id="getMyPageReserAirPlane_proc" parameterType="java.util.Map" resultType="kos.triple.project.vo.AirReservationDetailVO">
+		<![CDATA[
+			SELECT * 
+			FROM(
+			    SELECT ROWNUM seq,  airResNo , resTime , mem_id , payMethod , price 
+			            , airPlaneNo , adult , baby , student , memSize 
+			            , seatLevel_adult , seatLevel_student , seatLevel_baby 
+			            , startLocation , endLocation
+			    FROM(
+			        SELECT airResNo , resTime , mem_id , payMethod , price 
+			            , airPlaneNo , adult , baby , student , memSize 
+			            , seatLevel_adult , seatLevel_student , seatLevel_baby 
+			            , startLocation , endLocation
+			        FROM RES_AIR
+			        WHERE MEM_ID = #{mem_id}
+			        ORDER BY RESTIME DESC
+			    )
+			)
+			WHERE seq BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+
+	<select id="getRouteInfo_proc" resultType="kos.triple.project.vo.RouteVO">
+		SELECT *
+		FROM route
+		WHERE routeNo=#{routeNo}
+	</select>
+	
+	<select id="getRouteNo_proc" resultType="String">
+		SELECT routeNo
+		FROM airplane
+		WHERE airplaneNo = #{airPlaneNo}
+	</select>
+	
+	<select id="getRemainSeat_proc" parameterType="String" resultType="kos.triple.project.vo.AirPlaneVO">
+		SELECT premium , highClass , nomal
+		FROM airplane
+		WHERE airplaneNo = #{airPlaneNo}
+	</select>
+
+	<update id="modifyAirPlane_remainSeat_proc" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE airplane
+			SET	nomal = ( nomal - #{nomal} ) 
+				, highClass = ( highClass - #{highClass} ) 
+				, premium=( premium - #{premium} )
+			WHERE airplaneNo = #{airPlaneNo}
+		]]>
+	</update>
+
+	<insert id="airResProc_proc" parameterType="kos.triple.project.vo.AirReservationDetailVO">
+		INSERT INTO RES_AIR
+		VALUES(
+			RES_AIR_SEQ.NEXTVAL,#{mem_id},#{memSize},#{payMethod},
+			#{price},#{airPlaneNo},SYSTIMESTAMP,#{adult},#{baby},#{student},
+			#{seatLevel_adult},#{seatLevel_baby},#{seatLevel_student},
+			#{startLocation},#{endLocation}
+		)
+	</insert>
+	
 	<select id="getReserVationInfo_proc" parameterType="String" resultMap="airPlaneSearch">
 		SELECT * 
 		FROM AIRPLANE
@@ -19,24 +81,31 @@
 	</select>
 	
 	<select id="getAirPlane_proc" resultType="kos.triple.project.vo.AirPlaneVO">
-		SELECT airplaneNo , airplanename 
-			 , premium , highclass , nomal 
-			 , TO_CHAR(premium+highclass+nomal) as seatPriceCode , routeNo
-    	FROM airplane
-    	ORDER BY airplaneNo
+		<![CDATA[
+			SELECT airplaneNo , airplanename 
+				 , premium , highclass , nomal 
+				 , case when airPlaneSize = 'small' then 28 else 50 end as seatPriceCode 
+				 , routeNo
+				 , airPlaneSize
+	    	FROM airplane
+	    	ORDER BY airplaneNo
+    	]]>
 	</select>
 	
 	<insert id="addAirPlane_proc" parameterType="kos.triple.project.vo.AirPlaneVO">
 		<![CDATA[
 			INSERT INTO airplane(
 				airPlaneNo,airPlaneName,
-				premium,highClass,nomal
+				premium,highClass,nomal,airPlaneSize
 			) 
 			VALUES(
 				#{airPlaneNo}||TO_CHAR(airplane_seq.nextval),#{airPlaneName},
-				#{premium},#{highClass},#{nomal}
+				#{premium},#{highClass},#{nomal},#{airPlaneSize}
 			)
-		]]>
+			
+			
+			
+	    ]]>
 	</insert>
 	
 	<select id="getLastAirPlaneNo_proc" resultType="int">
@@ -70,6 +139,7 @@
 		   ,premium = #{premium}
 		   ,highClass = #{highClass}
 		   ,nomal = #{nomal}
+		   ,airPlaneSize = #{airPlaneSize}
 		WHERE airPlaneNo=#{airPlaneNo}
 	</update>
 	
@@ -240,5 +310,13 @@
 		SELECT *
 		FROM airPort
 		WHERE airPortNo=#{airPortNo}
+	</select>
+	
+	<select id="getListCount" parameterType="java.util.Map" resultType="int">
+		<if test="method.equals('getMyPageReserAirPlane')">
+			SELECT COUNT(*)
+			FROM RES_AIR
+			WHERE MEM_ID = #{mem_id}
+		</if>
 	</select>
 </mapper>

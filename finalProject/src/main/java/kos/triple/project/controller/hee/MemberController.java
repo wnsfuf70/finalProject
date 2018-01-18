@@ -122,25 +122,13 @@ public class MemberController {
 		
 	}	
 	
-	// 글 목록
-	@RequestMapping(value="qnaList")
-	public String qnaList(HttpServletRequest req , Model model) {
+	@RequestMapping(value="myReservation")
+	public String myReservation(HttpServletRequest req , Model model) {
 		
-		return "qna/qnaList";
-	}
-	
-	// 글 작성하기
-	@RequestMapping(value="qnaWrite")
-	public String qnaWrite(HttpServletRequest req , Model model) {
+		service.deletePro(req, model);
 		
-		return "qna/qnaWrite";
-	}
-	
-	// 글 상세 보기
-	@RequestMapping(value="qnaView")
-	public String qnaView(HttpServletRequest req , Model model) {
+		return "mypage/reservation/myReservation";
 		
-		return "qna/qnaView";
-	}
+	}	
 
 }

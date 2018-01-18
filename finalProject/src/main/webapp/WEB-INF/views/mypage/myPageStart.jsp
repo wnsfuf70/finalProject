@@ -43,7 +43,7 @@
   	<a href="#" class="w3-bar-item w3-button">나의 후기</a>
   	<a href="#" class="w3-bar-item w3-button">내 여행 기록</a>
  	
- 	<a href="#" class="w3-bar-item w3-button">예약 목록</a>
+ 	<a href="myReservation" class="w3-bar-item w3-button">예약 목록</a>
  	
  	
  	<a href="qnaList" class="w3-bar-item w3-button">나의 QnA</a>
@@ -72,6 +72,12 @@
  		 <li><a href="where_main">어디갈까</a></li>
   		 
   		 <li><a href="recomandStart">추천여행기</a></li>
+ 
+  		 
+ 		<!-- 예약현황 추가 시작 -->
+ 		<li><a href="">예약현황</a></li> 
+ 		<!-- 예약현황 추가 종료 -->
+ 
  		 
  		<li>
  		 	<a href="#">예약</a>
@@ -81,6 +87,8 @@
 					<li><a href="rentReservation">렌트카 예약</a></li>
 		  		</ul>
  		 </li>
+
+ 		
  		
  		<c:if test="${sessionScope.mem_id == null}">					
 			<script type="text/javascript">

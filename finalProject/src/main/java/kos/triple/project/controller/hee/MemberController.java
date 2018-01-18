@@ -122,19 +122,15 @@ public class MemberController {
 		
 	}	
 	
+	//마이페이지 예약
 	@RequestMapping(value="myReservation")
-	public String myReservation(HttpServletRequest req , Model model) {
+	public ModelAndView myReservation(HttpServletRequest req , ModelAndView mav) {
 		
-		
-		/*RedirectView redirectView = new RedirectView("airOperationChange");
+		RedirectView redirectView = new RedirectView("myPageReservationStart");
 		redirectView.setContextRelative(true);
 
 		mav.setView(redirectView);
-		return mav;*/
-		
-		
-		
-		return "mypage/reservation/myReservation";
+		return mav;
 		
 	}	
 

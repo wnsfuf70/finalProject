@@ -11,6 +11,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	
+
+//ajax 페이지요청
+	
 	function getAirResList(requestPage){
 	
 		$.ajax({
@@ -47,22 +50,73 @@
 	
 	}
 	
+//ajax 페이지요청
+	
+//예약 취소
+	
+	function airResCancel(airplaneNo , airResNo){
+	
+		if(confirm("예약을 취소하겠습니까?")){
+
+			$.ajax({
+				
+				url: "airResCancel?airplaneNo="+airplaneNo+"&airResNo="+airResNo,
+				type:'GET',
+				success :function(msg){
+					$("#air_res_list").html(msg);
+				}
+				,
+				error : function(){
+					alert("error");
+				}
+				
+			})		
+		}
+		return false;
+		
+	}
+	
 	
 </script>
 </head>
 <body>
-	<h2>예약 목록</h2>
-
+	<h2>나의 예약 목록</h2><br><br>
+	
+	
+	<script type="text/javascript">
+			$(document).ready(function(){
+				
+			  $("#search").on("keyup", function() {
+			    var value = $(this).val().toLowerCase();
+			   
+			    $("#air_res_list tr").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			    
+			    });
+			    
+			    $("#car_res_list tr").filter(function() {
+				      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				    
+				    });
+			  
+			  });
+			
+			});
+	</script>
+	
 	<div class="container">
+		<div class="row">
+			<input class="form-control" id="search" type="text" placeholder="Search..">
+		</div>
+
 		<div class="row">
 			<h4>숙박예약목록</h4>
 		</div>
 		<hr>
 		
-		
 		<div class="row">
 			<h4>항공예약목록</h4>
-			<input class="form-control" id="airSearch" type="text" placeholder="Search..">
+			
 			<table class="table" >
 				<thead>
 					<tr>
@@ -74,6 +128,7 @@
 						<td>결제금액</td>
 						<td>결제수단</td>
 						<td>결제일시</td>
+						<td></td>
 					</tr>
 				</thead>
 				<tbody id="air_res_list">
@@ -110,11 +165,13 @@
 							<td>${airRes.price }</td>
 							<td>${airRes.payMethod}</td>
 							<td>${airRes.resTime }</td>
-						<tr>
+							<td>
+								<button class="btn btn-primary" onclick="airResCancel('${airRes.airPlaneNo}','${airRes.airResNo}')">예약취소</button>
+							</td>
+						</tr>
 					</c:forEach>
 					<tr>
-					
-						<td colspan="8" style="text-align: center;">
+						<td colspan="9" style="text-align: center;">
 							<c:if test="${blockStartNumber_air!=1}">
 								<input type="button" value="[◀◀]" onclick="getAirResList('${startPage_air}')">
 								<input type="button" value="[◀]" onclick="getAirResList('${blockStartNumber_air-1}')">
@@ -136,16 +193,7 @@
 				</tbody>
 
 			</table>
-			<script type="text/javascript">
-			$(document).ready(function(){
-			  $("#airSearch").on("keyup", function() {
-			    var value = $(this).val().toLowerCase();
-			    $("#air_res_list tr").filter(function() {
-			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			    });
-			  });
-			});
-			</script>
+			
 	
 	
 		</div>

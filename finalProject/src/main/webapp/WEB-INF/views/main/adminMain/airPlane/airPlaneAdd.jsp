@@ -13,7 +13,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-
 	function autoWrite(x){
 		if(x==1){
 			document.getElementById("delete").value="AIRPLANE_";
@@ -80,7 +79,6 @@
 					type: "GET",
 					//data: jsonData,
 					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-
 					success: function(msg) {
 						alert("등록완료");
 						$("#enableAirplane").append(msg);
@@ -126,7 +124,6 @@
 			
 			return false;
    		})
-
 		
    	
    		
@@ -134,7 +131,6 @@
 	});
 	
 	
-
 </script>
 
 </head>
@@ -241,8 +237,8 @@
 									<td>${i.nomal }</td>
 									<td>${i.seatPriceCode}</td>
 									<td>
-										<c:if test="${i.seatPriceCode=='28'}">소형</c:if>
-										<c:if test="${i.seatPriceCode=='50'}">대형</c:if>
+										<c:if test="${i.airPlaneSize=='small'}">소형</c:if>
+										<c:if test="${i.airPlaneSize=='large'}">대형</c:if>
 									</td>
 									<td>
 										<c:if test="${i.routeNo==null}">운항가능</c:if>

@@ -83,6 +83,16 @@ public class RentController {
 		return "mypage/reservation/myReservation";
 	}
 	
+	//예약 리스트-게스트(ajax)
+	@RequestMapping(value="getCarResList")
+	public String getCarResList(HttpServletRequest req, Model model) {
+		
+		log.debug("=============================== Method Name : getCarResList() ===============================");
+		service.rentReservationList(req, model);
+		
+		return "mypage/reservation/car/carResListTable";
+	}
+	
 	
 	//렌트카 예약 취소 리스트
 	@RequestMapping(value="rentReservationCancelList")
@@ -138,8 +148,7 @@ public class RentController {
 		
 		return "pro/hongPro/rentReservationPro";
 
-	}
-	
+	}	
 	
 
 }

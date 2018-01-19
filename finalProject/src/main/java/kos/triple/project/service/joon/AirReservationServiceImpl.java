@@ -1,6 +1,7 @@
 package kos.triple.project.service.joon;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import kos.triple.project.etc.DistanceCal;
+import kos.triple.project.etc.PageCalculator;
 import kos.triple.project.persistence.joon.AirReservationDAO;
 import kos.triple.project.vo.AirPlaneVO;
 import kos.triple.project.vo.AirPortVO;
+import kos.triple.project.vo.AirReservationDetailVO;
 import kos.triple.project.vo.AirReservationSearchVO;
 import kos.triple.project.vo.RouteVO;
 import kos.triple.project.vo.SeatPriceVO;
@@ -73,11 +76,13 @@ public class AirReservationServiceImpl implements AirReservationService{
 			vo.setPremium(2);
 			vo.setHighClass(8);
 			vo.setNomal(18);
+			vo.setAirPlaneSize("small");
 		}
 		else if(seatPriceCode.equals("large")) {
 			vo.setPremium(8);
 			vo.setHighClass(12);
 			vo.setNomal(30);
+			vo.setAirPlaneSize("large");
 		}
 		
 		
@@ -144,11 +149,13 @@ public class AirReservationServiceImpl implements AirReservationService{
 			vo.setPremium(2);
 			vo.setHighClass(8);
 			vo.setNomal(18);
+			vo.setAirPlaneSize("small");
 		}
 		else if(airPlaneSize.equals("large")) {
 			vo.setPremium(8);
 			vo.setHighClass(12);
 			vo.setNomal(30);
+			vo.setAirPlaneSize("large");
 		}
 		
 		
@@ -217,7 +224,7 @@ public class AirReservationServiceImpl implements AirReservationService{
 		System.out.println(sTime);
 		String[] tmp = sTime.split("T");
 		String startTimeStamp = tmp[0]+" "+tmp[1];
-		
+		//var x = "2017 01-15 03:20"
 		System.out.println("경유지 : " + midAirPortNo); //널값으로 넘어옴 (없는경우)
 		System.out.println(stepOneDistence);
 		System.out.println(stepTwoDistence);
@@ -255,7 +262,7 @@ public class AirReservationServiceImpl implements AirReservationService{
 		System.out.println(startTimeStamp);
 		System.out.println(hour1+":"+(int)min1);
 		System.out.println(hour2+":"+(int)min2);
-		
+										 //"2017-01-15 24:03:60:0.0"
 		Timestamp st = Timestamp.valueOf(startTimeStamp+":0.0");
 		Calendar cal = Calendar.getInstance();
 		
@@ -434,9 +441,245 @@ public class AirReservationServiceImpl implements AirReservationService{
 		
 		model.addAttribute("vo",vo);
 	}
+
+	@Override
+	public void airResProc(HttpServletRequest req, Model model) {
+		
+		int cnt = 0;
+		
+		String airPlaneNo = req.getParameter("airPlaneNo");
+		String startLocation = req.getParameter("startLocation");
+		String endLocation = req.getParameter("endLocation");
+		String price = req.getParameter("price");
+		String seatLevel_adult = req.getParameter("seatLevel_adult");
+		String seatLevel_student = req.getParameter("seatLevel_student");
+		String seatLevel_baby = req.getParameter("seatLevel_baby");
+		String adult = req.getParameter("adult");
+		String student = req.getParameter("student");
+		String baby = req.getParameter("baby");
+		String memSize = req.getParameter("memSize");
+		String mem_id = req.getParameter("mem_id");
+		String payMethod = req.getParameter("payMethod");
+		String startTime = req.getParameter("startTime");
+		String endTime = req.getParameter("endTime");
+		
+		AirReservationDetailVO vo = new AirReservationDetailVO();
+		
+		vo.setAirPlaneNo(airPlaneNo);
+		vo.setStartLocation(startLocation);
+		vo.setEndLocation(endLocation);
+		
+		
+		System.out.println("------------------------");
+		System.out.println("도착지" + vo.getEndLocation());
+		
+		
+		vo.setPrice(Integer.parseInt(price));
+		vo.setSeatLevel_adult(seatLevel_adult);
+		vo.setSeatLevel_student(seatLevel_student);
+		vo.setSeatLevel_baby(seatLevel_baby);
+		vo.setAdult(Integer.parseInt(adult));
+		vo.setStudent(Integer.parseInt(student));
+		vo.setBaby(Integer.parseInt(baby));
+		vo.setMemSize(Integer.parseInt(memSize));
+		vo.setMem_id(mem_id);
+		vo.setPayMethod(payMethod);
+		vo.setResTime(Timestamp.valueOf(LocalDateTime.now()));
+		
+		AirPlaneVO testVO = dao.getRemainSeat_proc(airPlaneNo);
+		
+		System.out.println("남은 좌석수 : "  + testVO.getNomal());
+		System.out.println("남은 좌석수 : "  + testVO.getHighClass());
+		System.out.println("남은 좌석수 : "  + testVO.getPremium());
+		
+		int nomal_total = 0;
+		int highClass_total = 0;
+		int premium_total = 0;
+		String seatLevel = vo.getSeatLevel_adult();
+		if(!seatLevel.equals("noSelect")) {
+			if(seatLevel.equals("nomal")) {
+				nomal_total += vo.getAdult();
+			}
+			else if(seatLevel.equals("highClass")) {
+				highClass_total += vo.getAdult();
+			}
+			else if(seatLevel.equals("premium")){
+				premium_total += vo.getAdult();
+			}
+		}
+		seatLevel = vo.getSeatLevel_student();
+		if(!seatLevel.equals("noSelect")) {
+			if(seatLevel.equals("nomal")) {
+				nomal_total += vo.getStudent();
+			}
+			else if(seatLevel.equals("highClass")) {
+				highClass_total += vo.getStudent();
+			}
+			else if(seatLevel.equals("premium")){
+				premium_total += vo.getStudent();
+			}
+		}
+		seatLevel = vo.getSeatLevel_baby();
+		if(!seatLevel.equals("noSelect")) {
+			if(seatLevel.equals("nomal")) {
+				nomal_total += vo.getBaby();
+			}
+			else if(seatLevel.equals("highClass")) {
+				highClass_total += vo.getBaby();
+			}
+			else if(seatLevel.equals("premium")){
+				premium_total += vo.getBaby();
+			}
+		}
+		
+		System.out.println("===========");
+		System.out.println(nomal_total);
+		System.out.println(highClass_total);
+		System.out.println(premium_total);
+		
+		int nomal_token = 0;
+		int highClass_token = 0;
+		int premium_token = 0;
+		
+		nomal_token = ( testVO.getNomal() - nomal_total >=0 ) ? 1 : 0 ;
+				
+		highClass_token = (testVO.getHighClass() - highClass_total >=0 ) ? 1 : 0 ;
+		
+		premium_token = (testVO.getPremium() - premium_total >=0) ? 1 : 0 ;
+		
+		
+		System.out.println("===== token ====");
+		System.out.println(nomal_token);
+		System.out.println(highClass_token);
+		System.out.println(premium_token);
+		
+		if(nomal_token==1 && highClass_token==1 && premium_token==1) {
+			cnt = 1 ;
+		}else {
+			cnt = 0 ;
+		}
+		
+		System.out.println("cnt : " + cnt);
+		
+		if(cnt==1) {
+			cnt = dao.airResProc_proc(vo);
+		}
+		else {
+			model.addAttribute("nomal_token",nomal_token);
+			model.addAttribute("highClass_token",highClass_token);
+			model.addAttribute("premium_token",premium_token);
+			String routeNo = dao.getRouteNo_proc(vo.getAirPlaneNo());
+			RouteVO route = dao.getRouteInfo_proc(routeNo);
+			model.addAttribute("route",route);
+			model.addAttribute("startTime" , startTime);
+			model.addAttribute("endTime" , endTime);
+			model.addAttribute("vo",vo);
+			return;
+		}
+		
+		if(cnt==1) {
+			//해당비행기의 남은 좌석수를 업데이트한다.
+			
+			int nomal = 0;
+			int highClass = 0;
+			int premium = 0;
+			
+			if(vo.getAdult()>0) {
+				switch(vo.getSeatLevel_adult()) {
+					case "nomal" : nomal += vo.getAdult(); break;
+					case "highClass" : highClass += vo.getAdult(); break;
+					case "premium" : premium += vo.getAdult(); break;
+				}
+			}
+			
+			if(vo.getStudent()>0){
+				switch(vo.getSeatLevel_student()) {
+					case "nomal" : nomal += vo.getStudent(); break;
+					case "highClass" : highClass += vo.getStudent(); break;
+					case "premium" : premium += vo.getStudent(); break;
+				}
+			}
+			
+			if(vo.getBaby()>0){
+				switch(vo.getSeatLevel_baby()) {
+					case "nomal" : nomal += vo.getBaby(); break;
+					case "highClass" : highClass += vo.getBaby(); break;
+					case "premium" : premium += vo.getBaby(); break;
+				}
+			}	
+			
+  			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("airPlaneNo",airPlaneNo);
+			map.put("nomal", nomal);
+			map.put("highClass", highClass);
+			map.put("premium", premium);
+			
+			dao.modifyAirPlane_remainSeat_proc(map);
+			
+			String routeNo = dao.getRouteNo_proc(vo.getAirPlaneNo());
+			RouteVO route = dao.getRouteInfo_proc(routeNo);
+			model.addAttribute("route",route);
+			
+		}
+		
+		model.addAttribute("startTime" , startTime);
+		model.addAttribute("endTime" , endTime);
+		model.addAttribute("vo",vo);
+		
+		model.addAttribute("nomal_token",nomal_token);
+		model.addAttribute("highClass_token",highClass_token);
+		model.addAttribute("premium_token",premium_token);
+		
+	}
+
+	@Override
+	public void getRemainSeat(HttpServletRequest req) {
+		
+		String airPlaneNo = req.getParameter("airPlaneNo");
+		
+		AirPlaneVO vo = dao.getRemainSeat_proc(airPlaneNo);
+		
+		req.setAttribute("vo",vo);
+	}
+
+	@Override
+	public void getMyPageReserAirPlane(HttpServletRequest req) {
+		
+		int pageSize = 3;  		//한 페이지당 출력할 글 개수
+		int pageBlock = 3; 		//한블럭당 페이지 개수		
+		int dataTotalCount = 0; 	   		
+
+		String pageNum = req.getParameter("requestPage");  //페이지 번호
+
+		String mem_id = (String)req.getSession().getAttribute("mem_id");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("method","getMyPageReserAirPlane");
+		map.put("mem_id",mem_id);
+		
+		dataTotalCount = dao.getListCount(map);
+		
+		if(pageNum == null) {
+			pageNum = "1"; //첫페이지를 1페이지로 설정
+		}		
+		
+
+		PageCalculator p = new PageCalculator(Integer.parseInt(pageNum), dataTotalCount, pageBlock, pageSize);
+		
+		map.put("start",p.getStart());
+		map.put("end",p.getEnd());
+		
+		List<AirReservationDetailVO> voList = dao.getMyPageReserAirPlane_proc(map);
+		
+		req.setAttribute("blockStartNumber",p.getBlockStartNumber() );
+		req.setAttribute("blockEndNumber",p.getBlockEndNumber() );
+		req.setAttribute("pageNum",p.getRequestPage());
+		req.setAttribute("startPage", p.getStartPage());
+		req.setAttribute("endPage",p.getEndPage());
+		req.setAttribute("voList",voList);
+		
+		
+	}
 	
-	//항공편 검색
-	
-	//항공예약
 	
 }

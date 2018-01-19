@@ -8,7 +8,6 @@
 <title>동행... 당신의 이야기</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/png" href="favicon.ico">
 
 <!--Google Fonts link-->
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
@@ -39,34 +38,36 @@
 
 
 <script type="text/javascript">
-	
- 	function paymentProc(){
+	$(function(){
+		$("#myPageBtn").click(function() {
+			window.location='myPageStart'
+		});
+		$("#homeBtn").click(function() {
+			window.location='main'
+		});
 		
-		var form = document.radioForm;
- 		var radioLength = form.payRadio.length;
- 		 
-	 	for (i=0;i<radioLength ;i++){
-	 		if(form.payRadio[i].checked == true){
-	 			document.airResProcForm.payMethod.value = form.payRadio[i].value;
-	 			break;
-	 		}
-	 	}
- 		
- 		if(radioLength == i){
- 			alert("결제수단선택하세요");
- 			return false;
- 		}
- 		
- 		if(! ( $("#permitCheck").prop("checked") )){
- 			alert("동의하세요");
- 			return false;
- 		}
- 		
- 		$("form[name='airResProcForm']").submit();
- 	}
+		
+	})
 	
+ 	
 </script>
 
+<style type="text/css">
+	#myPageBtn{   
+		border: #7acce4 3px solid;
+	    background-color: white;
+	    font-size: 30px;
+	    font-weight: 100;
+	    color:#7acce4;
+	}
+	#homeBtn {
+		border: #7acce4 3px solid;
+	    background-color: white;
+	    font-size: 30px;
+	    font-weight: 100;
+	    background-color: 7acce4;
+	} 
+</style>
 
 </head>
 
@@ -225,78 +226,198 @@
 		<!--End off Home Sections-->
 
 		<!-- 본문내용 작성자 : 유준렬 -->
+		<!-- 예약이 정상적으로 완료되었을경우 -->
+		<%--  --%>
+		
 		<br>
+		<input type="hidden" value="${ nomal_token}">
+		<input type="hidden" value="${ highClass_token}">
+		<input type="hidden" value="${ premium_token}">
 
 		<div class="container">
-
+			<c:if test="${ nomal_token == 1 && highClass_token == 1 && premium_token == 1}">
+		
 			<div class="row">
 				<div class="col-md-12">
 					<center>
-						<img src="${images }air/reserImg.png">
+						<img src="${images }air/reserCompleteImg.png">
 					</center>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-12">
+					<center>
+						<h2>항공권 예약이 정상적으로 완료되었습니다.</h2>
+					</center>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-3 col-md-offset-3">
+					<button class="btn btn-block btn-outline-info" id="myPageBtn">마이페이지</button>
+				</div>
+				<div class="col-md-3">
+					<button class="btn btn-block btn-outline-info" id="homeBtn">홈으로</button>
+				</div>
+			</div><br><br>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="well well-lg">
+						<h5><span class="glyphicon glyphicon-plane">구매정보</span></h5>
+						<hr>
+						<ul class="list-group">
+						  <li class="list-group-item">항공편 : ${vo.airPlaneNo }</li>
+						  <li class="list-group-item">출발 : ${vo.startLocation }</li>
+						  <li class="list-group-item">도착 : ${vo.endLocation }</li>
+						  <li class="list-group-item">출발일시 : ${startTime }</li>
+						  <li class="list-group-item">도착일시 : ${endTime }</li>
+						  <li class="list-group-item">
+					  		<c:if test="${vo.adult>0}">
+						  	<li class="list-group-item">
+						  		구분/인원/좌석 : 성인/${vo.adult}명/
+						  		<c:if test="${vo.seatLevel_adult=='nomal'}">일반석</c:if>
+						  		<c:if test="${vo.seatLevel_adult=='highClass'}">고급석</c:if>
+						  		<c:if test="${vo.seatLevel_adult=='premium'}">프리미엄석</c:if>
+						  	</li>
+						  	</c:if>
+						  	<c:if test="${vo.student>0}">
+						  	<li class="list-group-item">
+						  		구분/인원/좌석 : 학생/${vo.student}명/
+						  		<c:if test="${vo.seatLevel_student=='nomal'}">일반석</c:if>
+						  		<c:if test="${vo.seatLevel_student=='highClass'}">고급석</c:if>
+						  		<c:if test="${vo.seatLevel_student=='premium'}">프리미엄석</c:if>
+						  	</li>
+						  	</c:if>
+						  	<c:if test="${vo.baby>0}">
+						  	<li class="list-group-item">
+						  		구분/인원/좌석 : 유아/${vo.baby}명/
+						  		<c:if test="${vo.seatLevel_baby=='nomal'}">일반석</c:if>
+						  		<c:if test="${vo.seatLevel_baby=='highClass'}">고급석</c:if>
+						  		<c:if test="${vo.seatLevel_baby=='premium'}">프리미엄석</c:if>
+						  	</li>
+						  	</c:if>
+						</ul>	
+					</div>
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="col-md-12">
-					<br><br>
-					<div class="well well-lg" style="background-color: white">
-						
-						<h4><span class="glyphicon glyphicon-ok" aria-hidden="true">결제정보</span></h4>
-						<hr style="border: 2px solid #98b9ca;">
-							<div class="well well-lg">
-							
-								<form name="radioForm" class="form-inline">
-									  <div class="form-group">
-									    <input type="radio" name="payRadio" value="계좌이체">&nbsp;계좌이체 
-									  </div>
-									  <div class="form-group">
-									  	<input type="radio" name="payRadio" value="신용카드">&nbsp;신용카드 
-									  </div>
-									  <div class="form-group">
-									  	 <input type="radio" name="payRadio" value="무통장입금">&nbsp;무통장입금 
-									  </div>
-									  <div class="form-group">
-									  	 <input type="radio" name="payRadio" value="휴대폰">&nbsp;휴대폰 
-									  </div>
-								</form> 
-								
-							</div>
-						<div class="container">
-							<div class="col-md-12">
-							<form class="form-inline" action="/action_page.php">
-							  <div class="form-group">
-							    <label for="name">결제자 이름 : </label>
-							    <input type="text" class="form-control" id="name" >
-							  </div>
-							  <div class="form-group">
-							    <label for="tel">연락처 : </label>
-							    <input type="tel" class="form-control" id="tel" >
-							  </div>
-							   <div class="form-group">
-							  	<label for="email">이메일 : </label>
-							    <input type="email" class="form-control" id="email" >
-							   </div>
-							</form>
-						<%-- 	
-								출발지 : ${vo.startLocation }
-								출발시각 : ${startTime }
-								목적지 : ${vo.endLocation }
-								가격 : ${vo.price } 
-						--%>
-							</div>
+					<div class="well well-lg">
+						<h5><span class="glyphicon glyphicon-shopping-cart">결제정보</span></h5>
+						<hr>
+						<ul class="list-group">
+						  <li class="list-group-item">결제방법 : ${vo.payMethod }</li>
+						  <li class="list-group-item">결제금액 : ${vo.price }</li>
+						  <fmt:formatDate var="resTime" value="${vo.resTime}" pattern="yyyy-MM-dd HH시  mm분" />
+						  <li class="list-group-item">결제일시 : ${resTime }</li>
+						</ul>	
+					</div>
+				</div>
+			</div>			
+			</c:if>
+			<c:if test="${ !(nomal_token == 1 && highClass_token == 1 && premium_token == 1) }">
+				<div class="row">
+					<div class="col-md-12">
+						<center>
+							<img src="${images }air/reserCompleteImg.png">
+						</center>
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-md-12">
+						<center>
+							<h2>항공권 예약실패 하였습니다.</h2>
+						</center>
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-md-3 col-md-offset-3">
+						<button class="btn btn-block btn-outline-info" id="myPageBtn">마이페이지</button>
+					</div>
+					<div class="col-md-3">
+						<button class="btn btn-block btn-outline-info" id="homeBtn">홈으로</button>
+					</div>
+				</div><br><br>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="well well-lg">
+							<h5><span class="glyphicon glyphicon-remove-circle">구매실패 사유</span></h5>
+							<hr>
+							<ul class="list-group">
+							  <c:if test="${nomal_token==0}">
+							  	 <li class="list-group-item">일반석 매진 </li>
+							  </c:if>
+							  <c:if test="${highClass_token==0}">
+							  	<li class="list-group-item">고급석 매진</li>
+							  </c:if>
+							  <c:if test="${premium_token==0}">
+							  	 <li class="list-group-item">프리미엄석 매진</li>
+							  </c:if>
+							</ul>	
 						</div>
-						<div class="well well-lg" style="background-color: #e3e2e7">
-							<ul class='list-inline'>
-							  <li><div class="checkbox"><input type="checkbox" id="permitCheck">&nbsp;<b>주문 개인정보 수집동의</b></div></li>
-							</ul>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="well well-lg">
+							<h5><span class="glyphicon glyphicon-plane">구매정보</span></h5>
+							<hr>
+							<ul class="list-group">
+							  <li class="list-group-item">항공편 : ${vo.airPlaneNo }</li>
+							  <li class="list-group-item">출발 : ${vo.startLocation }</li>
+							  <li class="list-group-item">도착 : ${vo.endLocation }</li>
+							  <li class="list-group-item">출발일시 : ${startTime }</li>
+							  <li class="list-group-item">도착일시 : ${endTime }</li>
+							  	<c:if test="${vo.adult>0}">
+							  	<li class="list-group-item">
+							  		구분/인원/좌석 : 성인/${vo.adult}명/
+							  		<c:if test="${vo.seatLevel_adult=='nomal'}">일반석</c:if>
+							  		<c:if test="${vo.seatLevel_adult=='highClass'}">고급석</c:if>
+							  		<c:if test="${vo.seatLevel_adult=='premium'}">프리미엄석</c:if>
+							  	</li>
+							  	</c:if>
+							  	<c:if test="${vo.student>0}">
+							  	<li class="list-group-item">
+							  		구분/인원/좌석 : 학생/${vo.student}명/
+							  		<c:if test="${vo.seatLevel_student=='nomal'}">일반석</c:if>
+							  		<c:if test="${vo.seatLevel_student=='highClass'}">고급석</c:if>
+							  		<c:if test="${vo.seatLevel_student=='premium'}">프리미엄석</c:if>
+							  	</li>
+							  	</c:if>
+							  	<c:if test="${vo.baby>0}">
+							  	<li class="list-group-item">
+							  		구분/인원/좌석 : 유아/${vo.baby}명/
+							  		<c:if test="${vo.seatLevel_baby=='nomal'}">일반석</c:if>
+							  		<c:if test="${vo.seatLevel_baby=='highClass'}">고급석</c:if>
+							  		<c:if test="${vo.seatLevel_baby=='premium'}">프리미엄석</c:if>
+							  	</li>
+							  	</c:if>
+							</ul>	
 						</div>
-						<div class="container">
-							<div class="col-md-12 col-md-offset-6">
-	  							<div class="center-block" style="width: auto;">
-									<img alt="결제하기" src="${images }air/airpaymentImg.png" onclick="paymentProc()">
-								
-									<form style="display: none;" action="airResProc" method="POST" name="airResProcForm">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="well well-lg">
+							<h5><span class="glyphicon glyphicon-shopping-cart">결제정보</span></h5>
+							<hr>
+							<ul class="list-group">
+							  <li class="list-group-item">결제방법 : ${vo.payMethod }</li>
+							  <li class="list-group-item">결제금액 : ${vo.price }</li>
+							  <li class="list-group-item">결제여부 : 실패</li>
+							</ul>	
+						</div>
+					</div>
+				</div>			
+			</c:if>
+		</div>
+		<!-- 예약이 정상적으로 완료되었을경우 -->
+		
+		<%-- <form style="display: none;" action="airResProc" method="POST" name="airResProcForm">
 										<input type="hidden" name="airPlaneNo" value="${vo.airPlaneNo }">
 										<input type="hidden" name="startLocation" value="${vo.startLocation }">
 										<input type="hidden" name="endLocation" value="${vo.endLocation }">
@@ -309,23 +430,13 @@
 										<input type="hidden" name="baby" value="${vo.baby }">
 										<input type="hidden" name="memSize" value="${vo.adult+vo.student+vo.baby }">
 										<input type="hidden" name="mem_id" value="${sessionScope.mem_id }">
-										<input type="hidden" name="startTime" value="${startTime }">
-										<input type="hidden" name="endTime" value="${endTime }">
 										<input type="hidden" name="payMethod">
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				
-				</div>
-			</div>
-		</div>
+									</form> --%>
+	
 		
-		<!-- 
 		
-	<!-- 본문내용 작성자 : 유준렬 -->
-
+	<!-- 본문내용 작성자 : 유준렬 -->	
+	
 	<!--Company section-->
 	<section id="company" class="company bg-light">
 		<div class="container">
@@ -340,6 +451,7 @@
 			</div>
 		</div>
 	</section>
+
 
 	<!-- scroll up-->
 	<div class="scrollup">

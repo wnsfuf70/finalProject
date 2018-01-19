@@ -10,6 +10,7 @@ public class AirPlaneVO {
 	private int premium;
 	private int highClass;
 	private int nomal;
+	private String airPlaneSize;
 	
 	public AirPlaneVO() {
 
@@ -78,8 +79,14 @@ public class AirPlaneVO {
 	public void setNomal(int nomal) {
 		this.nomal = nomal;
 	}
-	
-	
+
+	public String getAirPlaneSize() {
+		return airPlaneSize;
+	}
+
+	public void setAirPlaneSize(String airPlaneSize) {
+		this.airPlaneSize = airPlaneSize;
+	}
 	
 	
 }

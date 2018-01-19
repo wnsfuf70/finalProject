@@ -67,11 +67,22 @@ public class RentController {
 	@RequestMapping(value="rentReservationList")
 	public String rentReservationList(HttpServletRequest req, Model model) {
 		
-		log.debug("=============================== Method Name : rentDelete() ===============================");
-		
+		log.debug("=============================== Method Name : rentReservationList() ===============================");
+		service.rentReservationList(req, model);
 		
 		return "main/adminMain/rentCar/rentReservationList";
 	}
+	
+	//렌트카 예약 리스트 - 게스트
+	@RequestMapping(value="myPageReservationStart")
+	public String myPageReservationStart(HttpServletRequest req, Model model) {
+		
+		log.debug("=============================== Method Name : myPageReservationStart() ===============================");
+		service.rentReservationList(req, model);
+		
+		return "mypage/reservation/myReservation";
+	}
+	
 	
 	//렌트카 예약 취소 리스트
 	@RequestMapping(value="rentReservationCancelList")
@@ -98,6 +109,7 @@ public class RentController {
 		log.debug("=============================== Method Name : rentList() ===============================");
 		service.rentCar(req, model);
 		
+		
 		return "reservation/car/rentList";
 
 	}	
@@ -110,11 +122,24 @@ public class RentController {
 		System.out.println("넘겨받은 자동차번호 : " + req.getParameter("car_num"));
 		service.getViewDetail(req,model);
 		
-		CarInfoVO vo = (CarInfoVO)req.getAttribute("vo");
+		CarInfoVO vo = (CarInfoVO) req.getAttribute("vo");
 		
 		return vo;
 
 	}	
+	
+	//렌트카 예약하기
+	@RequestMapping(value="requestReservation")
+	public String requestReservation(HttpServletRequest req, Model model) {
+		
+		log.debug("=============================== Method Name : requestReservation() ===============================");
+		service.rentReservation(req, model);
+		
+		
+		return "pro/hongPro/rentReservationPro";
+
+	}
+	
 	
 
 }

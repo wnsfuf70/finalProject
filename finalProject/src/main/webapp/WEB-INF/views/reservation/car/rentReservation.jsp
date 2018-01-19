@@ -11,9 +11,16 @@
 <link rel="icon" type="image/png" href="favicon.ico">
 
 <!--Google Fonts link-->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+	rel="stylesheet">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i"
+	rel="stylesheet">
+
 <link rel="stylesheet" href="${css}slick.css">
 <link rel="stylesheet" href="${css}slick-theme.css">
 <link rel="stylesheet" href="${css}animate.css">
@@ -23,10 +30,14 @@
 <link rel="stylesheet" href="${css}magnific-popup.css">
 <link rel="stylesheet" href="${css}bootsnav.css">
 <link rel="stylesheet" href="${css}carousel.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+	.center,tr,td{
+		margin:0 auto;
+	}
+</style>
 
 <!--For Plugins external css-->
 <!--<link rel="stylesheet" href="${css}plugins.css" />-->
@@ -37,50 +48,16 @@
 
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="${css}responsive.css" />
-	<!-- JS includes -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="${js}vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-<script src="${js}vendor/jquery-1.11.2.min.js"></script>
-<script src="${js}vendor/bootstrap.min.js"></script>
-<script src="${js}isotope.min.js"></script>
-<script src="${js}jquery.magnific-popup.js"></script>
-<script src="${js}jquery.easing.1.3.js"></script>
-<script src="${js}slick.min.js"></script>
-<script src="${js}jquery.collapse.js"></script>
-<script src="${js}bootsnav.js"></script>
-<script src="${js}plugins.js"></script>
-<script src="${js}main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
-<script type="text/javascript">
-$(function() {
-/* 	$( "#datepicker" ).datepicker({
-     	dateFormat: 'y-mm-dd'
-	}); */
-   
-	$("#timepicker").timepicker({
-		interval: 60, 
-	   	timeFormat: "HH:mm",
-	   	minHour: 08,
-	   	maxHour: 20,
-	   	dynamic: false
-   	});
-	
-	$("#return_timepicker").timepicker({
-	   	interval: 60, 
-	   	timeFormat: "HH:mm",
-	   	minHour: 08,
-	   	maxHour: 20,
-	   	dynamic: false
-   	});
-});
-</script>
 </head>
+
 <body data-spy="scroll" data-target=".navbar-collapse">
 
 
 	<!-- Preloader -->
 
- 	<div id="loading">
+	<div id="loading">
 		<div id="loading-center">
 			<div id="loading-center-absolute">
 				<div class="object"></div>
@@ -102,6 +79,7 @@ $(function() {
 
 	<div class="culmn">
 		<!--Home page style-->
+
 
 		<nav
 			class="navbar navbar-default navbar-fixed white no-background bootsnav text-uppercase">
@@ -129,13 +107,13 @@ $(function() {
 
 				<!-- Start Header Navigation -->
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#navbar-menu">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 						<i class="fa fa-bars"></i>
 					</button>
-					<a class="navbar-brand" href="main"> 
-						홈<img src="#" class="logo logo-display" alt=""> 
-						<img src="#"class="logo logo-scrolled" alt="">
+					<a class="navbar-brand" href="main">홈
+					<img src="#" class="logo logo-display" alt=""> 
+					<img src="#" class="logo logo-scrolled" alt="">
+
 					</a>
 				</div>
 				<!-- End Header Navigation -->
@@ -144,19 +122,17 @@ $(function() {
 				<div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown"
 						data-out="fadeOutUp">
-						<li><a href="plan">계획하기</a></li>
-						<li><a href="story_write_myTourStory">이야기</a></li>
-						<li><a href="where_main">어디갈까</a></li>
-						<li><a href="recomandStart">추천여행기</a></li>
+						<li><a href="aboutus.html">이야기</a></li>
+						<li><a href="model.html">어디갈까</a></li>
+						<li><a href="blog.html">추천여행기</a></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">예약 </a>
 							<ul class="dropdown-menu">
-								<li><a href="stayReservation">숙박 예약</a></li>
-								<li><a href="airReservation">항공 예약</a></li>
-								<li><a href="rentReservation">렌트카 예약</a></li>
+								<li><a href="#">숙박 예약</a></li>
+								<li><a href="#">항공 예약</a></li>
+								<li><a href="samplePage">렌트카 예약</a></li>
 							</ul>
-						</li>
-					<c:if test="${sessionScope.mem_id == null}">					
+						<c:if test="${sessionScope.mem_id == null}">					
 						<li><a href="" data-toggle="modal" data-target="#login">로그인</a></li>
 						<li><a href="" data-toggle="modal" data-target="#register">회원가입</a></li>
 					</c:if>
@@ -169,21 +145,20 @@ $(function() {
 								<li><a href="xxxStart">여행후기</a></li>
 								<li><a href="myPageStart">마이페이지</a></li>
 							</ul>
-						</li>
-								
+						</li>						
 						<li><a href="logout" >로그아웃</a></li>
 					</c:if>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
 			</div>
-
 		</nav>
 		<c:if test="${sessionScope.mem_id == null}">
 			<%@include file="../../main/modal/loginModal.jsp"%>	
 			<%@include file="../../main/modal/registerModal.jsp"%>
 		</c:if>
-		
+
+
 		<!--Home Sections-->
 
 		<section id="hello" class="home bg-mega">
@@ -233,59 +208,9 @@ $(function() {
 				</a>
 			</div>
 		</section>
-		<br>
 		<!--End off Home Sections-->
-		
-		<div class="container">
-		 <form action="rentList" method="post" name="rentForm">
-			<h2>차량 예약</h2>
-				<div class="row">
-				    <div class="col-sm-1">
-				    	대여일 :
-				    </div>
-				    <div class="col-sm-2">
-				    	<input type="date" name="rental_day">
-				    </div>
-				    <div class="col-sm-1">
-				    	대여 시간 : 
-				    </div>
-				    <div class="col-sm-2">
-				    	<input type="text" style="display: inline-block;" name="rental_time" id="timepicker" placeholder="시간을 선택하세요">
-				    </div>				    
-				    <div class="col-sm-1">
-						반납일 :
-				    </div>
-				    <div class="col-sm-2">
-				    	 <input type="date" name="return_day">
-				    </div>
-				    <div class="col-sm-1">
-				    	반납 시간 : 
-				    </div>
-				    <div class="col-sm-2">
-				    	<input type="text" style="display: inline-block;" name="return_time" id="return_timepicker" placeholder="시간을 선택하세요">
-				    </div>	    			    			
-				</div>
-				<br>
-				<div class="row">
-					 <div class="col-sm-1">
-						차량유형 :		    
-				    </div>
-				    <div class="col-sm-6">
-						 전체<input type="checkbox" name="car_kind" value="전체">
-						 소형<input type="checkbox" name="car_kind" value="소형"> 
-			   	 	          중형<input type="checkbox" name="car_kind" value="중형"> 
-						 대형<input type="checkbox" name="car_kind" value="대형">
-						SUV<input type="checkbox" name="car_kind" value="SUV"> 
-					        스포츠<input type="checkbox" name="car_kind" value="스포츠">			    
-				    </div>
-				</div>
-				<div class="row">
-					<center><input type="submit" id="car_search" name="search_rent" value="조회"></center>
-				</div>
-				</form>
-		 
-		</div>
-
+	
+<h1>예약완료</h1>
 		<!--Company section-->
 
 		<section id="company" class="company bg-light">
@@ -338,7 +263,17 @@ $(function() {
 
 	</div>
 
+	<!-- JS includes -->
 
-
+	<script src="${js}vendor/jquery-1.11.2.min.js"></script>
+	<script src="${js}vendor/bootstrap.min.js"></script>
+	<script src="${js}isotope.min.js"></script>
+	<script src="${js}jquery.magnific-popup.js"></script>
+	<script src="${js}jquery.easing.1.3.js"></script>
+	<script src="${js}slick.min.js"></script>
+	<script src="${js}jquery.collapse.js"></script>
+	<script src="${js}bootsnav.js"></script>
+	<script src="${js}plugins.js"></script>
+	<script src="${js}main.js"></script>
 </body>
 </html>

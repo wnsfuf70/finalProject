@@ -71,6 +71,11 @@
 		SELECT COUNT(*) FROM rentcar
 	</select>
 	
+	<!-- 렌트카 갯수 구하기(차종별로) -->
+	<select id="getArticleCntKind" resultType="int">
+		SELECT COUNT(*) FROM car WHERE car_kind=#{car_kind}
+	</select>
+	
 	<!-- 렌트카추가 -->
 	<insert id="rentAdd" parameterType="kos.triple.project.vo.RentCarVO">
 		INSERT INTO rentcar(rent_no,use_km,car_count,insurance,car_num,car_img) 
@@ -88,5 +93,42 @@
 		SELECT * FROM car 
 		NATURAL JOIN rentcar
 		WHERE car_num=#{car_num}
+	</select>
+	
+	<!-- 렌트카예약 -->
+	<insert id="reservation_car" parameterType="kos.triple.project.vo.Reservation_CarVO">
+		INSERT INTO reservation_car 
+		VALUES(rs_no.nextval,#{rent_no},#{mem_id},#{name},#{phone1},#{phone2},#{phone3},#{driver_kind},
+		#{driver1},#{driver2},#{driver3},#{email1},#{email2},#{rental_day},#{return_day},#{payment},#{price},#{rental_time},#{return_time},#{car_name})
+	</insert>
+	
+	<!-- 렌트예약 완료 - 차수량을 뺀다 -->
+	<update id="carMaineoseu" parameterType="kos.triple.project.vo.RentCarVO">
+		UPDATE rentcar SET car_count=(car_count - 1) WHERE rent_no=#{rent_no}
+	</update>
+	
+	<!-- 렌트카예약리스트 갯수 구하기 -->
+	<select id="rentReservationCnt" resultType="int">
+		SELECT COUNT(*) FROM reservation_car
+	</select>
+	
+	<!-- 예약리스트 조회 -->
+	<select id="rentReservationList" parameterType="java.util.Map" resultType="kos.triple.project.vo.Reservation_CarVO">
+		SELECT * FROM(
+		SELECT ROWNUM seq,rent_no,car_count,mem_id,name,phone1,phone2,phone3,driver_kind,driver1,driver2,driver3,
+		              email1,email2,rental_day,return_day,paymethod,price,rental_time,return_time,car_name
+		FROM(
+		     SELECT rentcar.rent_no,rentcar.car_count,reservation_car.car_name,reservation_car.mem_id,
+		     reservation_car.name,reservation_car.phone1,reservation_car.phone2,reservation_car.phone3,
+		     reservation_car.driver_kind,reservation_car.driver1,
+		     reservation_car.driver2,reservation_car.driver3,reservation_car.email1,reservation_car.email2,
+		     reservation_car.rental_day,reservation_car.return_day,reservation_car.paymethod,reservation_car.price,
+		     reservation_car.rental_time,reservation_car.return_time
+		 FROM 
+		 reservation_car JOIN rentcar
+		 ON reservation_car.rent_no = rentcar.rent_no 
+		 ORDER BY return_day , return_time
+		    ))
+		WHERE seq BETWEEN #{start} AND #{end}
 	</select>
 </mapper>

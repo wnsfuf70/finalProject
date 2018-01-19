@@ -18,5 +18,11 @@ public interface CarService {
 	
 	//렌트카 상세 조회
 	public void getViewDetail(HttpServletRequest req, Model model);
+	
+	//렌트카 예약하기
+	public void rentReservation(HttpServletRequest req, Model model);
+	
+	//호트스 예약 조회
+	public void rentReservationList(HttpServletRequest req, Model model);
 
 }

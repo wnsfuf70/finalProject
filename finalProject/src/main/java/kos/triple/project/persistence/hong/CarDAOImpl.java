@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kos.triple.project.vo.CarInfoVO;
 import kos.triple.project.vo.RentCarVO;
+import kos.triple.project.vo.Reservation_CarVO;
 
 @Repository
 public class CarDAOImpl implements CarDAO{
@@ -35,6 +36,18 @@ public class CarDAOImpl implements CarDAO{
 				
 		CarDAO dao = sqlSession.getMapper(CarDAO.class);
 		cnt = dao.getArticleCnt();
+		
+		return cnt;
+	}
+	
+	//렌트카 갯수 구하기(차종별로)
+	@Override
+	public int getArticleCntKind(String car_kind) {
+		
+		int cnt = 0;
+		
+		CarDAO dao = sqlSession.getMapper(CarDAO.class);
+		cnt = dao.getArticleCntKind(car_kind);
 		
 		return cnt;
 	}
@@ -84,5 +97,55 @@ public class CarDAOImpl implements CarDAO{
 		
 		return vo;
 	}
+
+	//렌트카 예약
+	@Override
+	public int reservation_car(Reservation_CarVO vo) {
+		
+		int cnt = 0;
+		
+		CarDAO dao = sqlSession.getMapper(CarDAO.class);	
+		cnt = dao.reservation_car(vo);
+		dao.carMaineoseu(vo);
+		
+		return cnt;
+	}
+
+	//렌트예약 완료 - 차수량을 뺀다
+	@Override
+	public int carMaineoseu(Reservation_CarVO vo) {
+		
+		int cnt = 0;
+		
+		CarDAO dao = sqlSession.getMapper(CarDAO.class);
+		cnt = dao.carMaineoseu(vo);
+		
+		return cnt;
+	}
+
+	//예약리스트 갯수 구하기
+	@Override
+	public int rentReservationCnt() {
+		
+		int cnt = 0;
+		
+		CarDAO dao = sqlSession.getMapper(CarDAO.class);
+		cnt = dao.rentReservationCnt();
+		
+		return cnt;
+	}
+
+	//예약리스트 조회하기
+	@Override
+	public ArrayList<Reservation_CarVO> rentReservationList(Map<String, Integer> map) {
+		
+		CarDAO dao = sqlSession.getMapper(CarDAO.class);
+		
+		ArrayList<Reservation_CarVO> dtos = dao.rentReservationList(map);
+		
+		return dtos;
+	}
+
+
 
 }

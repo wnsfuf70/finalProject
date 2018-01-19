@@ -111,15 +111,16 @@
 				<div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown"
 						data-out="fadeOutUp">
-						<li><a href="aboutus.html">이야기</a></li>
-						<li><a href="model.html">어디갈까</a></li>
-						<li><a href="blog.html">추천여행기</a></li>
+						<li><a href="plan">계획하기</a></li>
+						<li><a href="story_write_myTourStory">이야기</a></li>
+						<li><a href="where_main">어디갈까</a></li>
+						<li><a href="recomandStart">추천여행기</a></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">예약 </a>
 							<ul class="dropdown-menu">
-								<li><a href="#">숙박 예약</a></li>
-								<li><a href="#">항공 예약</a></li>
-								<li><a href="rent">렌트카 예약</a></li>
+								<li><a href="stayReservation">숙박 예약</a></li>
+								<li><a href="airReservation">항공 예약</a></li>
+								<li><a href="rentReservation">렌트카 예약</a></li>
 							</ul>
 						</li>
 					<c:if test="${sessionScope.mem_id == null}">					
@@ -131,7 +132,7 @@
 						<a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">${sessionScope.mem_id}님</a>
 							<ul class="dropdown-menu">
-								<li><a href="xxxStart">계획하기</a></li>
+								<li><a href="plan">계획하기</a></li>
 								<li><a href="xxxStart">여행후기</a></li>
 								<li><a href="myPageStart">마이페이지</a></li>
 							</ul>
@@ -143,158 +144,11 @@
 				<!-- /.navbar-collapse -->
 			</div>
 		</nav>
-<!-- 모달 추가 시작 login -->
-	<div class="row">
-		<div class="modal" id="login" tabindex="-1"  >
-			<!-- #model로 지정했으므로 id="model" -->
-			<div class="modal-dialog" style="z-index:9999">
-				<div class="modal-content">
-					<div class="modal-header">
-						로그인
-						<button class="close" data-dismiss="modal">&times;</button>
-					</div>
-					
-					<div class="modal-body" style="text-align: center;">
-					<center><img src="${images}/Login.png"></center>
-						<form id="login-form" action="login" method="post" role="form" style="display: block;">
-							
-							<div class="form-group">
-								<input type="text" name="userId" id="userId" tabindex="1" class="form-control" placeholder="아이디" value="">
-							</div>
-							
-							<div class="form-group">
-								<input type="password" name="userPassword" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호" value="">
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-success" value="로그인">
-									</div>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="text-center">
-											<a href="https://phpoll.com/recover" tabindex="5" class="forgot-password"> 아이디 | 비밀번호 찾기</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>	
-<!-- 모달 추가 종료 login-->	
-<!-- 모달 추가 시작 register -->
-	<div class="row">
-		<div class="modal" id="register" tabindex="-1">
-			<!-- #model로 지정했으므로 id="model" -->
-			<div class="modal-dialog" style="z-index:9999">
-				<div class="modal-content" style="height:950px">
-					<div class="modal-header">
-						회원가입
-						<button class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body" style="text-align: center;">
-		
-			<!-- 회원가입 -->
-			<div class="col-md-12">
-				<form role="form" action="register" method="post" role="form" style="display: block;">
-					<div class="form-group">
-						<label for="username">사용자 이름</label> 
-						<input type="text" class="form-control" id="username" placeholder="이름을 입력해 주세요" name="name">
-					</div>
-	<!-- 
-		vo.setEmail1(req.getParameter("email1"));
-		vo.setEmail1(req.getParameter("email2"));
-		vo.setSex(req.getParameter("sex"));
-		vo.setPhone1(req.getParameter("phone1"));
-		vo.setPhone2(req.getParameter("phone2"));
-		vo.setPhone3(req.getParameter("phone3"));
-		vo.setBirth(req.getParameter("birth"));
-		vo.setGrade(req.getParameter("grade"));
-		vo.setFaceImg(req.getParameter("faceImg"));
-		vo.setIntroduce(req.getParameter("introduce")); -->
-					<div class="form-group">
-						<label for="InputId">아이디</label> 
-						<!-- <div id="chkIdOk"><span class="glyphicon glyphicon-ok"></span></div>
-						<div id="chkIdRemove"><span class="glyphicon glyphicon-remove"></span></div> -->
-						<div id="chkIdMsg"></div>
-						<input type="text" class="form-control" id="InputId" placeholder="아이디(영문+숫자/6~15이내)" required="required" name="mem_id">
-					</div>
-					<div class="form-group">
-						<label for="InputPassword1">비밀번호</label> 
-						<input type="password" class="form-control" id="InputPassword1" placeholder="비밀번호(영문+숫자/6~15이내)" required="required" name="password">
-					</div>
-					<div class="form-group">
-						<label for="InputPassword2">비밀번호 확인</label> 
-						<!-- <div id="chkPwdOk"><span class="glyphicon glyphicon-ok"></span></div>
-						<div id="chkPwdRemove"><span class="glyphicon glyphicon-remove"></span></div> -->
-						<div id="chkPwdMsg"></div>
-						<input type="password" class="form-control" id="InputPassword2" placeholder="비밀번호 확인" required="required">
-						<!-- <p class="help-block">비밀번호 확인을 위해 다시 한번 입력 해 주세요</p> -->
-					</div>
-					<div class="form-group">
-						<label for="InputEmail">이메일 주소</label> 
-						<input type="email" class="form-control" id="InputEmail" placeholder="E-Mail(비밀번호 분실 시 필요합니다)" required="required" name="email">
-					</div>
-					<div class="form-group">
-						<label for="InputBirthday">생년월일</label> 
-						<input type="date" class="form-control" id="InputBirthday" placeholder="생년월일을 선택해 주세요" required="required" name="birth">
-					</div>
-					<div class="form-group">
-						<label for="InputGender">성별</label>&nbsp;&nbsp;&nbsp; 
-						<label> <input name="sex" type="radio" value="Male" checked> 남자  </label>
-						&nbsp;&nbsp;&nbsp; 
-						<label><input name="sex" type="radio" value="Female"> 여자</label>
-					</div>
-					<div class="form-group">
-						<label for="username">휴대폰 인증</label>
-						<div class="input-group">
-							<input type="tel" class="form-control" id="username" placeholder="- 없이 입력해 주세요" name="phone"> 
-							<span class="input-group-btn">
-								<button class="btn btn-success">
-									인증번호 전송<i class="fa fa-mail-forward spaceLeft"></i>
-								</button>
-							</span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="username">인증번호 입력</label>
-						<div class="input-group">
-							<input type="text" class="form-control" id="username" placeholder="인증번호"> <span class="input-group-btn">
-								<button class="btn btn-success">
-									인증번호 입력<i class="fa fa-edit spaceLeft"></i>
-								</button>
-							</span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label>약관 동의</label>
-						<div data-toggle="buttons">
-							<label class="btn btn-primary active"> 
-							<span class="fa fa-check"></span> 
-							<input id="agree" type="checkbox" autocomplete="off" checked>
-							</label> <a href="#">이용약관</a>에 동의합니다.
-						</div>
-					</div>
-					<div class="form-group text-center">
-						<button type="submit" class="btn btn-info">회원가입<i class="fa fa-check spaceLeft"></i></button>
-						<button type="submit" class="btn btn-warning">가입취소<i class="fa fa-times spaceLeft"></i></button>
-					</div>
-				</form>
-			</div>
-			<!-- 회원가입 종료 -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>	
+		<c:if test="${sessionScope.mem_id == null}">
+			<%@include file="../../main/modal/loginModal.jsp"%>	
+			<%@include file="../../main/modal/registerModal.jsp"%>
+		</c:if>
+
 		<!--Home Sections-->
 		<section id="hello" class="home bg-mega">
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -344,7 +198,7 @@
 		<div class="container">
 		<br>
 			<form action="" method="post" name="rentCarForm">
-				<h3>${rental_day}부터  ${return_day}까지 ${car_kind}차량 검색 결과 입니다.</h3>
+			<h3>${rental_day}일 ${rental_time}분부터  ${return_day}일 ${return_time}분까지 ${car_kind}차량 검색 결과 입니다.</h3>
 				
 				<c:forEach var="car" items="${dtos}">
 				<hr>			
@@ -357,23 +211,38 @@
 							<br>
 								<table class="table table-condensed">	
 									<tr>
-										<td>차량이름</td>
+										<td style="width:270px;">차량이름</td>
 										<td id="car_name">${car.car_name}</td>
 									</tr>
 									<tr>
-										<td>차량종류</td>
+										<td style="width:270px;">차량종류</td>
 										<td id="car_kind">${car.car_kind}</td>
 									</tr>																	
 									<tr>
-										<td>가격</td>
+										<td style="width:270px;">1일가격</td>
 										<td id="car_price">${car.car_price}</td>			
+									</tr>
+									<tr>
+										<td style="color:red;">총 가격</td>
+											<c:if test="${return_s < rental_s}">
+												<c:set var="total" value="${(car.car_price*diffDats) + (car.car_addprice*ch)}" />
+												<td id="${car.car_num }_total">${total}</td>		
+									        </c:if>
+									        <c:if test="${return_s > rental_s}">
+									        	<c:set var="total1" value="${(car.car_price*diffDats) + (car.car_addprice*t)}"/>
+									        	<td id="${car.car_num }_total">${total1}</td>
+									        </c:if>
 									</tr>				
 								</table>
 							</div>
 							<br>
 							<div class="col-md-3">
-								<button type="button"  class="btn btn-default btn-lg">예약하기</button>
-								<button type="button"  class="btn btn-default btn-lg" onclick="showDetailCarInfo('${car.car_num}')">상세보기</button>
+								<c:if test="${car.car_count == 1}">
+									<button type="button" class="btn btn-default btn-lg" onclick="showDetailCarInfo('${car.car_num}')">상세보기</button>
+								</c:if>
+								<c:if test="${car.car_count ==0}">
+									<span style="coler:red;">예약 불가</span>
+								</c:if>
 							</div>
 						</div>
 					</div> 				
@@ -386,20 +255,20 @@
 								<th align="center">
 										<!-- 처음[◀◀] / 이전 블록[◀] -->
 									<c:if test="${blockStartNumber!=1}">
-										<input type="button" value="[◀◀]" onclick="window.location='rentList?requestPage=${startPage}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}'">
-										<input type="button" value="[◀]" onclick="window.location='rentList?requestPage=${blockStartNumber-1}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}'">
+										<input type="button" value="[◀◀]" onclick="window.location='rentList?requestPage=${startPage}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}&rental_time=${rental_time}&return_time=${return_time}'">
+										<input type="button" value="[◀]" onclick="window.location='rentList?requestPage=${blockStartNumber-1}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}&rental_time=${rental_time}&return_time=${return_time}'">
 									</c:if>
 									<c:forEach var="n" begin="${blockStartNumber}" end="${blockEndNumber}">
 										<c:if test="${n!=pageNum}">
-											<a href="rentList?requestPage=${n}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}">${n}</a>
+											<a href="rentList?requestPage=${n}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}&rental_time=${rental_time}&return_time=${return_time}">${n}</a>
 										</c:if>
 										<c:if test="${n==pageNum}">
 											<b>${n}</b>
 										</c:if>
 									</c:forEach>
 									<c:if test="${blockEndNumber!=endPage}">
-										<input type="button" value="[▶]" onclick="window.location='rentList?requestPage=${blockEndNumber+1}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}'">
-										<input type="button" value="[▶▶]" onclick="window.location='rentList?requestPage=${endPage}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}'">
+										<input type="button" value="[▶]" onclick="window.location='rentList?requestPage=${blockEndNumber+1}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}&rental_time=${rental_time}&return_time=${return_time}'">
+										<input type="button" value="[▶▶]" onclick="window.location='rentList?requestPage=${endPage}&car_kind=${car_kind}&rental_day=${rental_day}&return_day=${return_day}&rental_time=${rental_time}&return_time=${return_time}'">
 									</c:if>	
 								</th>
 							</tr>
@@ -415,12 +284,26 @@
 			<div class="modal" id="carDetailModal" tabindex="-1">
 				<div class="modal-dialog" style="z-index:9999">				
 					<div class="modal-content">
-						<form name="carDetailModalForm">
+						<form action="requestReservation" name="carDetailModalForm" method="get">
+						<input type="hidden" name="rental_day" value="${rental_day}">
+						<input type="hidden" name="return_day" value="${return_day}">
+						<input type="hidden" name="rental_time" value="${rental_time}">
+						<input type="hidden" name="return_time" value="${return_time}">
+						<input type="hidden" name ="car_name">
+						<input type="hidden" name="rent_no">
+						<input type="hidden" name="mem_id" value="${mem_id}">
+						<input type="hidden" name="brand_name">
+						<input type="hidden" name="car_kind">
+						<input type="hidden" name="insurance">
+						<input type="hidden" name="fuel">
+						<input type="hidden" name="car_price">
+						<input type="hidden" name="car_addprice">
+						<input type="hidden" name="total1">
+						
 							<div class="modal-header">
 								<h4>차량 상세정보</h4>
 							</div>
-							<div class="modal-body">
-							
+							<div class="modal-body">						
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-6">
@@ -439,35 +322,147 @@
 												</tr>
 												<tr>
 													<td>차량종류</td>
-													<td id="car_kind">${car.car_kind}</td>
+													<td id="car_kind">${vo.car_kind}</td>
 												</tr>
 													
 												<tr>
 													<td>보험</td>
-													<td id="insurance">${car.insurance}</td>
+													<td id="insurance">${vo.insurance}</td>
 												</tr>
 																	
 												<tr>
 													<td>연료상태</td>
-													<td id="fuel">${car.fuel}</td>
+													<td id="fuel">${vo.fuel}</td>
 												</tr>
 												<tr>
-													<td>가격</td>
-													<td id="car_price">${car.car_price}</td>			
+													<td>1일가격</td>
+													<td id="car_price">${vo.car_price}</td>			
 												</tr>
 												<tr>
-													<td>추가가격</td>
-													<td id="car_addprice">${car.car_addprice}</td>		
-												</tr>					
+													<td>시간당추가가격</td>
+													<td id="car_addprice">${vo.car_addprice}</td>		
+												</tr>
+												<tr>	
+													<td style="color:red;">총가격</td>
+ 														<c:if test="${return_s < rental_s}">
+															<c:set var="total" value="${(car.car_price*diffDats) + (car.car_addprice*ch)}" />
+															<td id="total">${total}</td>		
+												        </c:if>
+												        <c:if test="${return_s > rental_s}">
+												        	<c:set var="total1" value="${(car.car_price*diffDats) + (car.car_addprice*t)}"/>
+												        	<td id="total">${total1}</td>
+												        </c:if>
+												</tr>				
 											</table>
 										</div>
 									</div>
 								</div> 
-								
+							<div class="row">
+								<div class="col-md-12">		
+								<br>		
+									<h4>정보 입력</h4>			
+									<table class="table table-condensed">
+										<tr>
+											<td>성명</td>
+											<td colspan="3"><input type="text" name="name" style="width:100px;" required="required"></td>
+										</tr>
+										<tr>
+											<td>휴대폰</td>
+											<td colspan="3"><input type="text" name="phone1" style="width:100px;" required="required"> -
+											<input type="text" name="phone2" style="width:100px;" required="required"> -
+											<input type="text" name="phone3" style="width:100px;" required="required"></td>
+										</tr>
+										<tr>
+											<td>면허종류</td>
+											<td>
+												<select required="required" name="driver_kind">
+													<option>선탁하세요</option>
+													<option>1종보통</option>
+													<option>2종보통</option>
+												</select>
+											</td>
+											<td>면허 유효일자</td>
+											<td>
+												<select required="required" name="driver1">
+													<option>선택</option>
+													<option>2018</option>
+													<option>2019</option>
+													<option>2020</option>
+													<option>2021</option>
+													<option>2022</option>
+												</select>
+												<select required="required" name="driver2">
+													<option>선택</option>
+													<option>01</option>
+													<option>02</option>
+													<option>03</option>
+													<option>04</option>
+													<option>05</option>
+													<option>06</option>
+													<option>07</option>
+													<option>08</option>
+													<option>09</option>
+													<option>10</option>
+													<option>11</option>
+													<option>12</option>
+												</select>
+												<select required="required" name="driver3">
+													<option>선택</option>
+													<option>01</option>
+													<option>02</option>
+													<option>03</option>
+													<option>04</option>
+													<option>05</option>
+													<option>06</option>
+													<option>07</option>
+													<option>08</option>
+													<option>09</option>
+													<option>10</option>
+													<option>11</option>
+													<option>12</option>
+													<option>13</option>
+													<option>14</option>
+													<option>15</option>
+													<option>16</option>
+													<option>17</option>
+													<option>18</option>
+													<option>19</option>
+													<option>20</option>
+													<option>21</option>
+													<option>22</option>
+													<option>23</option>
+													<option>24</option>
+													<option>25</option>
+													<option>26</option>
+													<option>27</option>
+													<option>28</option>
+													<option>29</option>
+													<option>30</option>
+													<option>31</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>E-mail</td>
+											<td colspan="3"><input type="text" name="email1" required="required"> @ <input type="text" name="email2" required="required"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						
+							<div class="row">
+								<div class="col-md-12">
+									<h4>결제 수단</h4>
+										<input type="radio" name="payment" value="신용카드">신용카드 &ensp;&ensp;
+										<input type="radio" name="payment" value="계좌이체">계좌이체 &ensp;&ensp;
+										<input type="radio" name="payment" value="무통장입금">무통장입금 &ensp;&ensp;
+										<input type="radio" name="payment" value="핸드폰결제">핸드폰결제 
+								</div>
+							</div>
 								
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default btn-sm">예약하기</button>
+								<button type="submit" class="btn btn-default btn-sm">예약하기</button>
 								<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
 							</div>
 					</form>
@@ -476,6 +471,24 @@
 		</div>
 	</div>
 	<!-- 상세보기 모달 종료 -->
+	<!-- 결제 모달  시작-->
+			<div class="row">
+			<div class="modal" id="payModal" tabindex="-1">
+				<div class="modal-dialog" style="z-index:9999">				
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>결제</h4>
+						</div>
+						<div class="modal-body">
+						
+						</div>
+						<div class="modal=footer">
+						
+						</div>
+					</div>
+				</div>
+			</div>
+	<!-- 결제 모달 종료 -->
 	<script type="text/javascript">
 		function showDetailCarInfo(car_num){
 			
@@ -488,13 +501,28 @@
 					$("form[name='carDetailModalForm'] img").attr("src","/project/resources/images/car/"+vo.car_img);
 					$("form[name='carDetailModalForm'] #car_name").html(vo.car_name);
 					$("form[name='carDetailModalForm'] #car_kind").html(vo.car_kind);
-					$("form[name='carDetailModalForm'] #car_price").html(vo.car_price);
-					
+					$("form[name='carDetailModalForm'] #car_price").html(vo.car_price);					
 					document.getElementById("car_brand").innerHTML=vo.brand_name;
 					document.getElementById("car_addprice").innerHTML=vo.car_addprice;
 					document.getElementById("insurance").innerHTML=vo.insurance;
 					document.getElementById("fuel").innerHTML=vo.fuel;
+					
+					//총가격
+					var totalPrice = $("#"+car_num+"_total").text();
+					$("#total").html(totalPrice);		
+					
 					$("#carDetailModal").modal('show');
+					
+					$("form[name='carDetailModalForm'] input[name='car_name']").attr("value",vo.car_name);
+					$("form[name='carDetailModalForm'] input[name='rent_no']").attr("value",vo.rent_no);
+					$("form[name='carDetailModalForm'] input[name='car_kind']").attr("value",vo.car_kind);
+					$("form[name='carDetailModalForm'] input[name='brand_name']").attr("value",vo.brand_name);
+					$("form[name='carDetailModalForm'] input[name='insurance']").attr("value",vo.insurance);
+					$("form[name='carDetailModalForm'] input[name='fuel']").attr("value",vo.fuel);
+					$("form[name='carDetailModalForm'] input[name='car_price']").attr("value",vo.car_price);
+					$("form[name='carDetailModalForm'] input[name='car_addprice']").attr("value",vo.car_addprice);
+					$("form[name='carDetailModalForm'] input[name='total1']").attr("value",totalPrice);
+					
 				}
 				,error : function() {
 					alert('error');
@@ -502,6 +530,7 @@
 			})
 			
 		}		
+		
 	</script>
 		<!--Company section-->
 		<section id="company" class="company bg-light">

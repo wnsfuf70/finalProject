@@ -294,17 +294,17 @@ public class CarServiceImpl implements CarService{
 		map.put("start", p.getStart());
 		map.put("end", p.getEnd());	
 		ArrayList<Reservation_CarVO> dtos = dao.rentReservationList(map);
-		model.addAttribute("dtos", dtos);
-		model.addAttribute("number", number); //글번호		
-		model.addAttribute("cnt", cnt); //렌트카 갯수
+		req.setAttribute("dtos_car", dtos);
+		req.setAttribute("number_car", number); //글번호		
+		req.setAttribute("cnt_car", cnt); //렌트카 갯수
 		if(cnt > 0) {
-			model.addAttribute("startPage", p.getStartPage()); //시작페이지
-			model.addAttribute("endPage", p.getEndPage());//마지막페이지
-			model.addAttribute("pageBlock", p.getBlockSize());//출력할 페이지 개수
-			model.addAttribute("pageCount", p.getContentCount());//페이지 개수
-			model.addAttribute("pageNum", p.getRequestPage());//현재 페이지
-			model.addAttribute("blockStartNumber", p.getBlockStartNumber());
-			model.addAttribute("blockEndNumber", p.getBlockEndNumber());
+			req.setAttribute("startPage_car", p.getStartPage()); //시작페이지
+			req.setAttribute("endPage_car", p.getEndPage());//마지막페이지
+			req.setAttribute("pageBlock_car", p.getBlockSize());//출력할 페이지 개수
+			req.setAttribute("pageCount_car", p.getContentCount());//페이지 개수
+			req.setAttribute("pageNum_car", p.getRequestPage());//현재 페이지
+			req.setAttribute("blockStartNumber_car", p.getBlockStartNumber());
+			req.setAttribute("blockEndNumber_car", p.getBlockEndNumber());
 			
 		}
 		

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../../../setting.jsp" %>
 
-<c:forEach var="airRes" items="${voList }">
+<c:forEach var="airRes" items="${voList_air }">
 	<tr>
 		<td>${airRes.seq }</td>
 		<td>${airRes.startLocation }</td>
@@ -37,41 +37,23 @@
 		<td>${airRes.resTime }</td>
 	<tr>
 </c:forEach>
-	<tr>
-	<%-- <td colspan="8" style="text-align: center;">
-		<c:if test="${blockStartNumber!=1}">
-			<input type="button" value="[◀◀]" onclick="window.location='xxx?requestPage='">
-			<input type="button" value="[◀]" onclick="window.location='xxx?requestPage=${blockStartNumber-1}'">
-		</c:if>
-		<c:forEach var="n" begin="${blockStartNumber}" end="${blockEndNumber}">
-			<c:if test="${n!=pageNum}">
-				<a href="xxx?requestPage=${n}">${n}</a>
-			</c:if>
-			<c:if test="${n==pageNum}">
-				<b>${n}</b>
-			</c:if>
-		</c:forEach>
-		<c:if test="${blockEndNumber!=endPage}">
-			<input type="button" value="[▶]" onclick="window.location='xxx?requestPage=${blockEndNumber+1}'">
-			<input type="button" value="[▶▶]" onclick="window.location='xxx?requestPage=${endPage}'">
-		</c:if>
-	</td> --%>
+<tr>
 	<td colspan="8" style="text-align: center;">
-		<c:if test="${blockStartNumber!=1}">
-			<input type="button" value="[◀◀]" onclick="getAirResList('${startPage}')">
-			<input type="button" value="[◀]" onclick="getAirResList('${blockStartNumber-1}')">
+		<c:if test="${blockStartNumber_air!=1}">
+			<input type="button" value="[◀◀]" onclick="getAirResList('${startPage_air}')">
+			<input type="button" value="[◀]" onclick="getAirResList('${blockStartNumber_air-1}')">
 		</c:if>
-		<c:forEach var="n" begin="${blockStartNumber}" end="${blockEndNumber}">
-			<c:if test="${n!=pageNum}">
+		<c:forEach var="n" begin="${blockStartNumber_air}" end="${blockEndNumber_air}">
+			<c:if test="${n!=pageNum_air}">
 				<a href="#" onclick="getAirResList('${n}')">${n}</a>
 			</c:if>
-			<c:if test="${n==pageNum}">
+			<c:if test="${n==pageNum_air}">
 				<b>${n}</b>
 			</c:if>
 		</c:forEach>
-		<c:if test="${blockEndNumber!=endPage}">
-			<input type="button" value="[▶]" onclick="getAirResList('${blockEndNumber+1}')">
-			<input type="button" value="[▶▶]" onclick="getAirResList('${endPage}')">
+		<c:if test="${blockEndNumber_air!=endPage_air}">
+			<input type="button" value="[▶]" onclick="getAirResList('${blockEndNumber_air+1}')">
+			<input type="button" value="[▶▶]" onclick="getAirResList('${endPage_air}')">
 		</c:if>
 	</td>
 </tr>

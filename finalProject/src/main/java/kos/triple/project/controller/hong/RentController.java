@@ -1,5 +1,7 @@
 package kos.triple.project.controller.hong;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -9,8 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import kos.triple.project.service.hong.CarServiceImpl;
+import kos.triple.project.vo.AirReservationDetailVO;
 import kos.triple.project.vo.CarInfoVO;
 
 @Controller
@@ -72,27 +77,6 @@ public class RentController {
 		
 		return "main/adminMain/rentCar/rentReservationList";
 	}
-	
-	//렌트카 예약 리스트 - 게스트
-	@RequestMapping(value="myPageReservationStart")
-	public String myPageReservationStart(HttpServletRequest req, Model model) {
-		
-		log.debug("=============================== Method Name : myPageReservationStart() ===============================");
-		service.rentReservationList(req, model);
-		
-		return "mypage/reservation/myReservation";
-	}
-	
-	//예약 리스트-게스트(ajax)
-	@RequestMapping(value="getCarResList")
-	public String getCarResList(HttpServletRequest req, Model model) {
-		
-		log.debug("=============================== Method Name : getCarResList() ===============================");
-		service.rentReservationList(req, model);
-		
-		return "mypage/reservation/car/carResListTable";
-	}
-	
 	
 	//렌트카 예약 취소 리스트
 	@RequestMapping(value="rentReservationCancelList")

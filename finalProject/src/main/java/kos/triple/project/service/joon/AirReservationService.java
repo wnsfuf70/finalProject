@@ -3,6 +3,7 @@ package kos.triple.project.service.joon;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 public interface AirReservationService {
 
@@ -64,7 +65,7 @@ public interface AirReservationService {
 	public void getRemainSeat(HttpServletRequest req);
 
 	//마이페이지 항공예약 목록을 가져온다.
-	public void getMyPageReserAirPlane(HttpServletRequest req);
+	public void getMyPageReserAirPlane(HttpServletRequest req , Model model);
 	
 	//항공편 검색
 	

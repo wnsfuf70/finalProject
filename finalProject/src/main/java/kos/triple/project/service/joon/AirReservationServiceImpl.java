@@ -643,7 +643,7 @@ public class AirReservationServiceImpl implements AirReservationService{
 	}
 
 	@Override
-	public void getMyPageReserAirPlane(HttpServletRequest req) {
+	public void getMyPageReserAirPlane(HttpServletRequest req , Model model) {
 		
 		int pageSize = 3;  		//한 페이지당 출력할 글 개수
 		int pageBlock = 3; 		//한블럭당 페이지 개수		
@@ -671,12 +671,13 @@ public class AirReservationServiceImpl implements AirReservationService{
 		
 		List<AirReservationDetailVO> voList = dao.getMyPageReserAirPlane_proc(map);
 		
-		req.setAttribute("blockStartNumber",p.getBlockStartNumber() );
-		req.setAttribute("blockEndNumber",p.getBlockEndNumber() );
-		req.setAttribute("pageNum",p.getRequestPage());
-		req.setAttribute("startPage", p.getStartPage());
-		req.setAttribute("endPage",p.getEndPage());
-		req.setAttribute("voList",voList);
+		
+		req.setAttribute("blockStartNumber_air",p.getBlockStartNumber() );
+		req.setAttribute("blockEndNumber_air",p.getBlockEndNumber() );
+		req.setAttribute("pageNum_air",p.getRequestPage());
+		req.setAttribute("startPage_air", p.getStartPage());
+		req.setAttribute("endPage_air",p.getEndPage());
+		req.setAttribute("voList_air",voList);
 		
 		
 	}

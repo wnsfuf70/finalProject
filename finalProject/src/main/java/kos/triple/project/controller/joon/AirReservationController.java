@@ -21,30 +21,7 @@ public class AirReservationController {
 	@Autowired
 	AirReservationService service;
 	
-	
-	@RequestMapping(value="myPageReservationStart")
-	public String myPageStart(HttpServletRequest req, Model model){	
-		
-		//마이페이지에서 항공예약목록을
-		service.getMyPageReserAirPlane(req);
-		
-		return "mypage/reservation/myReservation";
-		
-	}
-	
-	
-	@RequestMapping(value="getAirResList")
-	public String getAirResList(HttpServletRequest req, Model model){	
-		System.out.println("getAirResList()");
-		//마이페이지에서 항공예약목록을
-		service.getMyPageReserAirPlane(req);
-
-		return "mypage/reservation/air/airResListTable";
-		
-	}
-	
 	/* 클라이언트 페이지 */
-	
 	@RequestMapping(value="airReservation")
 	public String airReservation(HttpServletRequest req, Model model) {
 		
